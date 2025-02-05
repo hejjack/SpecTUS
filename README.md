@@ -1,6 +1,6 @@
-# SpecTUS: A Tool for GC-EI Mass Spectra Reconstruction
+# SpecTUS: Spectral Translator for Unknown Structures annotation from EI-MS spectra
 
-**SpecTUS** is a transformer-based tool for reconstructing Gas Chromatography-Electron Ionization (GC-EI) mass spectra. The model reconstructs spectra in a de novo manner — directly translating the spectra into 2D molecular structures represented as SMILES strings. The model is pretrained on a large dataset of synthetic spectra and fine-tuned on a smaller dataset of experimental NIST20 spectra. The NIST20 is a proprietary dataset, thus we cannot share the final model, but the code for training the model is carefully documented and available for public use. If you own a license for the NIST20 dataset, please reach out to us to get the final model.
+**SpecTUS** is a transformer-based tool for reconstructing Gas Chromatography-Electron Ionization (GC-EI) mass spectra. The model reconstructs spectra in a de novo manner — directly translating the spectra into 2D molecular structures represented as SMILES strings. The model is pretrained on a large dataset of synthetic spectra and fine-tuned on a smaller dataset of experimental NIST20 spectra. The NIST20 is a proprietary dataset; therefore, we cannot share the final model, but the code for training the model is carefully documented and available for public use. If you own a license for the NIST20 dataset, you can train the model yourself or contact us to get it.
 
 We make freely available the 17.2M synthetic spectra used for pretraining the model and the checkpoint of the pretrained model that
 can be further finetuned on your own dataset [here](https://huggingface.co/MS-ML).
@@ -10,11 +10,11 @@ can be further finetuned on your own dataset [here](https://huggingface.co/MS-ML
 ```
 SpecTUS/
 ├── config_runners/          # Shell scripts for model training, evaluation, and prediction, model comparison
-├── configs/                 # YAML configuration files for model training, evaluation, and prediction, model comparison
+├── configs/                 # YAML configuration files for model training, evaluation, prediction, model comparison
 ├── data/                    # Includes used NIST splits, example data, and synthetic data
-├── forward/                 # Scripts for spectra generatos (NEIMS, RASSP) training
+├── forward/                 # Scripts for spectra generators (NEIMS, RASSP) training
 ├── notebooks/               # Jupyter notebooks for data preprocessing, pretraining, finetuning, hyperparameter search, model evaluation, and comparison of the models
-├── predictions/             # Test predictions of all models (HP search) and DB search methods mentioned in the paper
+├── predictions/             # Test predictions of all models (hyperparameter search) and database search methods (HSS, SSS, BDC) mentioned in the paper
 ```
 
 ## 🛠 Installation
@@ -29,10 +29,9 @@ SpecTUS/
    ```
 
 ## 🚦 Usage
-Data preprocessing, pretraining, finetuning, hyperparameter search, model evaluation, and comparison of the models are all described in the [notebooks/](notebooks/) step by step.
+Data preprocessing, pretraining, finetuning, hyperparameter search, model evaluation, and comparison of the models are all described step by step in the [notebooks/](notebooks/).
 
-An example notebook for [inference](notebooks/05_inference_on_open_data.ipynb) is available to help you get started reconstructing spectra from an `msp` file once you have your model trained.
-
+An example notebook for [inference](notebooks/5_inference_on_open_data.ipynb) is available to help you get started reconstructing spectra from an `msp` file once you have your model trained.
 
 ## 📄 Citation
 If you use **SpecTUS** in your research, please cite (OLD CITATION):
