@@ -45,7 +45,7 @@ notebooks/smaz_to_alfa*
 data/datasets/extra_libraries/read_me.pdf
 
 # prediction tmp files
-predictions/**/*.png
+# predictions/**/*.png
 predictions/**/*.csv
 
 # share NIST splits
