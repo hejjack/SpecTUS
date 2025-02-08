@@ -1,0 +1,3 @@
+[submodule "spectus-demo"]
+    path = spectus-demo
+    url = https://github.com/ljocha/spectus-demo.git
