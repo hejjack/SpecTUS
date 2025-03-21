@@ -67,15 +67,6 @@
       "special": true
     },
     {
-      "id": 7,
-      "content": "<trafo>",
-      "single_word": false,
-      "lstrip": false,
-      "rstrip": false,
-      "normalized": false,
-      "special": true
-    },
-    {
       "id": 8,
       "content": "<source1>",
       "single_word": false,
@@ -140,7 +131,7 @@
       "<neims>": 4,
       "<nist>": 5,
       "<rassp>": 6,
-      "<trafo>": 7,
+      "<sep>": 7,
       "<source1>": 8,
       "<source2>": 9,
       "<source3>": 10,

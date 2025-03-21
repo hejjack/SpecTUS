@@ -6,6 +6,7 @@ from typing import Callable, Iterable
 from tqdm.auto import tqdm
 import pandas as pd
 import transformers
+from utils.data_utils import parse_outputs_list
 import wandb
 import torch
 import torch.utils.data
@@ -38,6 +39,7 @@ class PredictionLogger(transformers.TrainerCallback):
         self.logging_steps = log_every_n_steps
         self.show_raw_preds = show_raw_preds
         self.collator = collator
+        self.output_format = kwargs["output_format"]
 
         if generate_kwargs is None:
             generate_kwargs = {}
@@ -68,7 +70,7 @@ class PredictionLogger(transformers.TrainerCallback):
 
         model: SpectusForConditionalGeneration = kwargs["model"]
         tokenizer: transformers.PreTrainedTokenizerFast | SelfiesTokenizer = kwargs["tokenizer"] # if missing add to the class args
-        batch_size = args.per_device_eval_batch_size // 2   # to avoid OOM
+        batch_size = args.per_device_eval_batch_size
 
         dataloader = torch.utils.data.DataLoader(
             dataset,
@@ -105,14 +107,24 @@ class PredictionLogger(transformers.TrainerCallback):
                 preds = model.generate(**model_input,
                                        **gen_kwargs)
 
+                batch["labels"][batch["labels"] == -100] = 2 # replace -100 with pad token
                 raw_preds_str = tokenizer.batch_decode(preds, skip_special_tokens=False)
                 preds_str = tokenizer.batch_decode(preds, skip_special_tokens=True)
-                labels = batch["labels"][batch["labels"] == -100] = 2 # replace -100 with pad token
                 gts_str = tokenizer.batch_decode(batch["labels"], skip_special_tokens=True)
 
-                all_raw_preds.extend(raw_preds_str)
+                if self.output_format != "<mol_repr>": # speed up for the basic case
+                    parsed_outputs, _ = parse_outputs_list(preds_str, self.output_format)
+                    parsed_labels, _ = parse_outputs_list(gts_str, self.output_format)
+                    print("DEBUG: preds_str", preds_str)
+                    print("DEBUG: parsed_outputs", parsed_outputs)
+                    assert sorted(parsed_outputs.keys()) == sorted(parsed_labels.keys())
+                    assert len(parsed_outputs["mol_repr"]) == len(preds_str)
+                    preds_str = parsed_outputs["mol_repr"]
+                    gts_str = parsed_labels["mol_repr"]
+
                 all_preds.extend(preds_str)
                 all_decoded_labels.extend(gts_str)
+                all_raw_preds.extend(raw_preds_str)
 
                 # if SELFIES, translate them to SMILES before continuing
                 if mol_repr == "selfies":

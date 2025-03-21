@@ -106,7 +106,7 @@ def hardcode_build_selfies_tokenizer() -> SelfiesTokenizer:
     vocab = sf.get_semantic_robust_alphabet()
     vocab = sorted(list(vocab))
     special_tokens = ['<eos>', '<unk>', '<pad>', '<bos>']
-    sources = ['<nist>', '<rassp>', '<neims>', '<trafo>', '<source1>', '<source2>', '<source3>']
+    sources = ['<nist>', '<rassp>', '<neims>', '<sep>', '<source1>', '<source2>', '<source3>']
     vocab = special_tokens + vocab + sources
 
 

@@ -20,15 +20,9 @@ from pathlib import Path
 import selfies as sf
 import json
 
+import utils.data_utils as du
+
 tqdm.pandas()
-
-
-def mol_repr_to_labels(mol_repr, tokenizer, source_id: int) -> List[int]:
-    """Converts molecular representation (SMILES/SELFIES) to labels for the model"""
-    eos_token = tokenizer.eos_token_id
-    encoded_mol_repr = tokenizer.encode(mol_repr)
-    labels = [source_id] + encoded_mol_repr + [eos_token]
-    return labels
 
 
 def smiles_to_inchikey(smiles):
@@ -58,7 +52,7 @@ def preprocess_spectrum(s: Spectrum,
                         max_cumsum: Optional[float] = None,
                         mol_representation: str = "smiles"):
     """
-    Preprocess one matchms.Spectrum according to BART_spektro preprocessing pipeline
+    Preprocess one matchms.Spectrum according to SpecTUS preprocessing pipeline
 
     Parameters
     ----------
@@ -89,9 +83,9 @@ def preprocess_spectrum(s: Spectrum,
     Returns
     -------
     mz : List[int]
-        "tokenized" input to a BART spektro model - it's actually the mz values of the spectrum +
+        "tokenized" input to a SpecTUS model - it's actually the mz values of the spectrum +
     intensities : List[int]
-        logged and binned intensities, prepared as position_id for BART spektro model
+        logged and binned intensities, prepared as position_id for SpecTUS model
     canon_mol_reprs : str
         canonical SMILES/SELFIES representation of the spectra
     error_dict : Dict[str : bool]
@@ -159,7 +153,7 @@ def preprocess_spectrum(s: Spectrum,
 
     # creating label
     source_id = tokenizer.encode(source_token)[0]
-    label = mol_repr_to_labels(canon_mol_repr, tokenizer, source_id)
+    label = du.mol_repr_to_labels(canon_mol_repr, tokenizer, source_id)
 
     return (mz, intensities, canon_mol_repr, label, error_dict)
 
@@ -170,7 +164,7 @@ def preprocess_spectra(spectra: List[Spectrum],
                        keep_spectra: bool = False,
                        preprocess_args: dict = {}) -> pd.DataFrame:
     """
-    Preprocess a list of matchms.Spectrum according to BART_spektro preprocessing pipeline
+    Preprocess a list of matchms.Spectrum according to SpecTUS preprocessing pipeline
     Catch errors, sort them into 5 categories and print a report
 
     Parameters
@@ -189,7 +183,7 @@ def preprocess_spectra(spectra: List[Spectrum],
     Returns
     -------
     df_out : pd.DataFrame
-        a dataframe we are able to feed into SpectroDataset and then to SpectroBart
+        a dataframe we are able to feed into SpectroDataset and then to SpectusModel
     """
 
     mzs = []
@@ -273,7 +267,7 @@ def msp2jsonl(path_msp: Path,
               keep_spectra: bool = False,
               do_preprocess: bool = False,
               preprocess_args: dict = {}):
-    """load msp file, preprocess, prepare BART compatible dataframe and save to jsonl file
+    """load msp file, preprocess, prepare SpecTUS compatible dataframe and save to jsonl file
 
     Parameters
     ----------
@@ -287,7 +281,7 @@ def msp2jsonl(path_msp: Path,
     keep_spectra : bool
         whether to keep the spectra (original mz, and intensities) in the output jsonl file along with the preprocessed data
     do_preprocess : bool
-        whether to preprocess the spectra and prepare BART compatible jsonl file or just extract the spectra from msp to jsonl
+        whether to preprocess the spectra and prepare SpecTUS compatible jsonl file or just extract the spectra from msp to jsonl
     preprocess_args : dict
         dictionary of arguments for the preprocess_spectrum function if preprocessing allowed
         -> (max_num_peaks, max_mol_repr_len, max_mz, log_base, log_shift, max_cumsum, mol_representation, source_token)

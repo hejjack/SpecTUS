@@ -2,11 +2,12 @@
 # crucial part: __getitem__ changes data to tensor (could not be
 # stored as jsonl)
 
+from __future__ import annotations
 import json
 import torch
 from torch.utils.data import Dataset
 from torchdata.datapipes.iter import IterDataPipe, IterableWrapper, SampleMultiplexer, Concater, Header
-from typing import Callable, Dict, Sized, Union, Any, Optional, List, Tuple, Iterator, Hashable, TypeVar
+from typing import Callable, Dict, Union, Any, Optional, List, Tuple, TypeVar
 import warnings
 import pandas as pd
 import numpy as np
@@ -14,7 +15,7 @@ from pathlib import Path
 from rdkit import Chem
 import selfies as sf
 from tqdm import tqdm
-from utils.spectra_process_utils import mol_repr_to_labels, cumsum_filtering, remove_stereochemistry_and_canonicalize
+import utils.spectra_process_utils as spu
 
 tqdm.pandas()
 T_co = TypeVar("T_co", covariant=True)
@@ -110,6 +111,121 @@ def position_ids_creator(intensities, log_base=None, log_shift=None, do_log_binn
     return list(x.astype("int32"))
 
 
+def get_features_from_output_format(output_format: str) -> List[str]:
+    """Get the features from the output format.
+    """
+    return [k.strip("<>") for k in output_format.split("<sep>")]
+
+
+def parse_outputs_list(outputs: List[str], output_format: str) -> List[dict]:
+    """Parse a list of (COT) output strings into a dictionary of lists.
+    Catches and handles errors in the output format.
+    """
+    features = get_features_from_output_format(output_format)
+    num_errors = 0
+    all_parsed = {feature: [] for feature in features}
+    for output in outputs:
+        try:
+            parsed = parse_output(output, output_format)
+            for feature in features:
+                all_parsed[feature].append(parsed[feature])
+        except AssertionError:
+            num_errors += 1
+            for feature in features:
+                all_parsed[feature].append("")
+    return all_parsed, num_errors
+
+
+def parse_output(output: str, output_format: str) -> dict:
+    """Parse a (COT) output string into a dictionary.
+
+    <formula><sep><mol_repr> to {"formula": "<formula>", "mol_repr": "<mol_repr>"}
+    <formula><sep><mw><sep><mol_repr> to {"formula": "<formula>", "mw": "<mw>", "mol_repr": "<mol_repr>"}
+
+    Parameters
+    ----------
+    output: str
+        COT output string
+
+    Returns
+    -------
+    dict
+        Dictionary containing the parsed COT output.
+    """
+
+    keywords = output_format.split("<sep>")
+    content = output.split("<sep>")
+    assert len(keywords) == len(content), "Output does not match format"
+    return {k.strip("<>"): v for k, v in zip(keywords, content)}
+
+
+def construct_formatted_label(tokenizer, mol_repr, output_format):
+    """Constructs a (COT) label from a molecular representation and a COT format string.
+
+    Parameters
+    ----------
+    tokenizer: PreTrainedTokenizerFast
+        Tokenizer to tokenize molecular representation
+    mol_repr: str
+        Molecular representation (SMILES/SELFIES)
+    output_format: str
+        format string, allowed tokens: <formula>, <mw>, <sep>, <mol_repr>
+    Returns
+    -------
+    List[int]
+        list of token ids
+    """
+    space_token = tokenizer.encode(" ")[0]
+
+    keywords = {
+        "<mol_repr>": mol_repr if "mol_repr" in output_format else "",
+        "<formula>": Chem.rdMolDescriptors.CalcMolFormula(Chem.MolFromSmiles(mol_repr)) if "formula" in output_format else "",
+        "<mw>": str(round(Chem.Descriptors.ExactMolWt(Chem.MolFromSmiles(mol_repr)))) if "mw" in output_format else "",
+        "<sep>": "<sep>",
+    }
+
+    # Your original string
+    result = output_format
+    for keyword in keywords.keys():
+        result = result.replace(keyword, keywords[keyword])
+
+    encoded = tokenizer.encode(result)
+    encoded_clean = [token for token in encoded if token != space_token]
+
+    return encoded_clean
+
+
+def mol_repr_to_labels(mol_repr, tokenizer, source_id: int, output_format: str = "<mol_repr>") -> List[int]:
+    """Converts molecular representation (SMILES/SELFIES) to labels for the model
+
+    Parameters
+    ----------
+    mol_repr: str
+        Molecular representation (SMILES/SELFIES)
+    tokenizer: PreTrainedTokenizerFast
+        Tokenizer
+    source_id: int
+        encoded source token
+    output_format: str
+        COT format, used for richer label teaching the model to reason first and
+        then generate the answer. The string controls how the label is constructed.
+        currently allowed tokens: <formula>, <mw>, <sep>, <mol_repr>, e.g. "<formula><sep><mol_repr>"
+
+    Returns
+    -------
+    List[int]
+        list of token ids
+    """
+    eos_token = tokenizer.eos_token_id
+    if output_format:
+        label = construct_formatted_label(tokenizer, mol_repr, output_format)
+        labels = [source_id] + label + [eos_token]
+    else:
+        encoded_mol_repr = tokenizer.encode(mol_repr)
+        labels = [source_id] + encoded_mol_repr + [eos_token]
+    return labels
+
+
 def preprocess_datapoint(datadict, source_token, preprocess_args):
     """
     Preprocess a single datapoint.
@@ -135,7 +251,7 @@ def preprocess_datapoint(datadict, source_token, preprocess_args):
         # print("Warning: zero peak occured => removed")
 
     if preprocess_args.get("max_cumsum", None) is not None:
-        mzs, intensities = cumsum_filtering(mzs, intensities, preprocess_args["max_cumsum"])
+        mzs, intensities = spu.cumsum_filtering(mzs, intensities, preprocess_args["max_cumsum"])
 
     out = {"input_ids": [round(mz) for mz in mzs]}
 
@@ -148,13 +264,13 @@ def preprocess_datapoint(datadict, source_token, preprocess_args):
 
     if not preprocess_args["inference_mode"]:
         smiles = datadict.pop("smiles")
-        canon_mol_repr = remove_stereochemistry_and_canonicalize(smiles)
+        canon_mol_repr = spu.remove_stereochemistry_and_canonicalize(smiles)
         assert canon_mol_repr is not None, f"Corrupted SMILES: {smiles} not filtered out!"
         if preprocess_args["mol_repr"] == "selfies":  # if selfies, encode it
             canon_mol_repr = sf.encoder(canon_mol_repr)  # encode smiles to selfies
         out["mol_repr"] = canon_mol_repr
         source_id = preprocess_args["tokenizer"].encode(source_token)[0]
-        out["labels"] = mol_repr_to_labels(canon_mol_repr, preprocess_args["tokenizer"], source_id)
+        out["labels"] = mol_repr_to_labels(canon_mol_repr, preprocess_args["tokenizer"], source_id, preprocess_args["output_format"])
 
     if preprocess_args.get("keep_all_columns", False):
         out.update(datadict)
@@ -179,7 +295,7 @@ def filter_datapoints(datadict, preprocess_args) -> bool:
         Whether the datapoint should be kept.
     """
     # # canonicalization + possible selfies transformation
-    canon_mol_repr = remove_stereochemistry_and_canonicalize(datadict["smiles"])
+    canon_mol_repr = spu.remove_stereochemistry_and_canonicalize(datadict["smiles"])
 
     # filter corrupted
     if canon_mol_repr is None:
@@ -211,7 +327,7 @@ def filter_datapoints(datadict, preprocess_args) -> bool:
 
     # filter little peaks so it doesn't get kicked out
     if preprocess_args.get("max_cumsum", None) is not None:
-        mz, _ = cumsum_filtering(datadict["mz"], datadict["intensity"], preprocess_args["max_cumsum"])
+        mz, _ = spu.cumsum_filtering(datadict["mz"], datadict["intensity"], preprocess_args["max_cumsum"])
     else:
         mz, _ = datadict["mz"], datadict["intensity"]
 

@@ -166,7 +166,7 @@ def get_spectro_config(model_args: Dict, tokenizer: transformers.PreTrainedToken
                              encoder_max_position_embeddings=model_args.get("encoder_seq_len", None), # specify only when restricting intensities, otherwise encoder embedding matrix is sized by max_log_id
                              max_length=model_args["decoder_seq_len"],
                              max_mz=model_args["max_mz"],
-                             tie_word_embeddings=False,     # exrtremely important - enables two vocabs, don't change
+                             tie_word_embeddings=False,     # enables two vocabs, don't change!
                              min_len=0,
                              encoder_layers=model_args["encoder_layers"],
                              encoder_ffn_dim=model_args["encoder_ffn_dim"],
@@ -283,6 +283,7 @@ def main(config_file: Path = typer.Option(..., dir_okay=False, help="Path to the
             "tokenizer": tokenizer,
             "do_log_binning": preprocess_args.get("do_log_binning", True),
             "linear_bin_decimals": preprocess_args.get("linear_bin_decimals", None),
+            "output_format": preprocess_args.get("output_format", "<mol_repr>"),
         }
 
         if preprocess_args["do_log_binning"]:
@@ -373,9 +374,10 @@ def main(config_file: Path = typer.Option(..., dir_okay=False, help="Path to the
                                            show_raw_preds=dataset_args["show_raw_preds"],
                                         #    log_to_wandb=use_wandb,
                                            generate_kwargs=example_gen_args,
+                                           output_format=preprocess_args["output_format"],
                                         )
 
-    compute_metrics = SpectroMetrics(tokenizer)
+    compute_metrics = SpectroMetrics(tokenizer, output_format=preprocess_args["output_format"])
     seq2seq_training_args = transformers.Seq2SeqTrainingArguments(**hf_training_args,
                                                                     output_dir=str(save_path),
                                                                     run_name=run_name,

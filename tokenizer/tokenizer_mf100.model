@@ -68,7 +68,7 @@
     },
     {
       "id": 7,
-      "content": "<trafo>",
+      "content": "<sep>",
       "single_word": false,
       "lstrip": false,
       "rstrip": false,
@@ -140,7 +140,7 @@
       "<neims>": 4,
       "<nist>": 5,
       "<rassp>": 6,
-      "<trafo>": 7,
+      "<sep>": 7,
       "<source1>": 8,
       "<source2>": 9,
       "<source3>": 10,
