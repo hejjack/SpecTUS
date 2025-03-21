@@ -1,0 +1,91 @@
+command: spectus/predict_db_search.py --output-folder predictions --config-file configs/predict_db_search_sss_extra_libs.yaml
+  --num-workers 1
+dataset:
+  data_split: all
+  dataset_name: MONA_GCMS
+  query_data: data/extra_libraries/MONA_GCMS/MONA_GCMS_noD.jsonl
+  reference_data: data/nist/train.jsonl
+filtering_args:
+  max_mol_repr_len: 100
+  max_mz: 500
+  max_num_peaks: 300
+  mol_repr: smiles
+general:
+  additional_naming_info: ''
+  num_candidates: 10
+  ranking_function: sss
+start_loading_time: 07/11/2024 14:03:14
+tokenizer_path: tokenizer/tokenizer_mf10M.model
+finished_time_utc: 07/11/2024 14:03:14
+generation_time: 00:00:00
+wall_time_utc: 00:00:00
+evaluation_0:
+    average_num_of_predictions: '10.0'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:00:12
+    formula_stats:
+        num_all_correct_formulas: 2983 / 50150
+        num_at_least_one_correct_formula: '1422'
+        num_correct_formulas_at_best_prob: '820'
+        num_correct_formulas_at_best_simil: '821'
+        rate_of_all_correct_formulas: '0.05948155533399801'
+        rate_of_at_least_one_correct_formula: '0.28354935194416747'
+        rate_of_correct_formulas_at_best_prob: '0.16350947158524426'
+        rate_of_correct_formulas_at_best_simil: '0.16370887337986043'
+    hit_at_k_prob: '[(1, 0.0317048853439681), (2, 0.03609172482552343), (3, 0.03968095712861416),
+        (4, 0.04327018943170489), (5, 0.04346959122632104), (6, 0.0452642073778664),
+        (7, 0.04666001994017946), (8, 0.04685942173479561), (9, 0.04745762711864407),
+        (10, 0.047856430707876374)]'
+    labels_path: data/extra_libraries/MONA_GCMS/MONA_GCMS_noD.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '77.3507320507339'
+        mean_absolute_mw_difference_best_simil: '75.95615890822778'
+        mean_relative_mw_difference_best_prob: 44.06%
+        mean_relative_mw_difference_best_simil: 42.33%
+        rate_of_exact_mw_prob: '0.16071784646061815'
+        rate_of_exact_mw_simil: '0.13260219341974078'
+        rate_of_exact_nominal_mw_simil: '0.17108673978065803'
+        rate_of_mw_difference_less_than_1_best_prob: '0.226321036889332'
+        rate_of_mw_difference_less_than_1_best_simil: '0.1806580259222333'
+    num_datapoints_tested: '5015'
+    num_empty_preds: '0'
+    num_predictions_at_k_counter: '[5015, 5015, 5015, 5015, 5015, 5015, 5015, 5015,
+        5015, 5015]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '0'
+        num_precise_preds_similsort: '0'
+        rate_of_precise_preds_probsort: '0.0'
+        rate_of_precise_preds_similsort: '0.0'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 62), (8, 19), (7, 25), (2, 27), (4,
+            35), (3, 26), (5, 23), (6, 17), (10, 2), (9, 4)])
+        num_1_hits_as_first_probsort: '159'
+        num_1_hits_as_first_similsort: '240'
+        num_fp_simil_fail_prob: '159'
+        num_fp_simil_fail_simil: '240'
+        rate_of_1_hits_as_first_probsort: '0.0317048853439681'
+        rate_of_1_hits_as_first_similsort: '0.047856430707876374'
+    start_time_utc: 07/11/2024 14:07:28
+    threshold_stats:
+        num_better_than_threshold_probsort: '191'
+        num_better_than_threshold_similsort: '338'
+        rate_of_better_than_threshold_probsort: '0.038085742771684944'
+        rate_of_better_than_threshold_similsort: '0.06739780658025922'
+        threshold: '0.85'
+    topk_probsort: '[0.2567537630821723, 0.23373745198517223, 0.213164899372423, 0.2075484146398319,
+        0.19634728239300384, 0.19440861464846748, 0.19508408607548658, 0.18890060103029355,
+        0.17884858761218722, 0.17767390866392146]'
+    topk_similsort: '[0.3803110657624215, 0.3020289720055225, 0.26091072725284076,
+        0.2306866396994814, 0.20436257033582958, 0.17975699480057478, 0.15857252666060234,
+        0.13482815124445166, 0.10996600572273911, 0.0810439560184959]'

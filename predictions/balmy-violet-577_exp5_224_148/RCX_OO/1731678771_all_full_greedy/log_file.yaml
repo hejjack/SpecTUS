@@ -1,0 +1,344 @@
+command: spectus/predict.py --checkpoint checkpoints/finetune_clean/balmy-violet-577_exp5_224_148/checkpoint-147476
+  --output-folder predictions --config-file configs/predict_rcx_inhouse_greedy.yaml
+cuda_visible_devices: '2'
+dataloader:
+  batch_size: 1
+  num_workers: 1
+dataset:
+  data_path: data/rcx_inhouse/rcx_inhouse_overlaps_only.jsonl
+  data_split: all
+  dataset_name: RCX_OO
+general:
+  additional_naming_info: greedy
+  device: cuda
+generation_args:
+  do_sample: false
+  length_penalty: 1.0
+  max_length: 200
+  num_beams: 1
+  num_return_sequences: 1
+  penalty_alpha: null
+  temperature: null
+  top_k: null
+  top_p: null
+preprocess_args:
+  inference_mode: true
+  log_base: 1.28
+  log_shift: 29
+  max_cumsum: null
+  max_mol_repr_len: 100
+  max_mz: 500
+  max_num_peaks: 300
+  mol_repr: smiles
+  restrict_intensities: false
+  source_token: <nist>
+start_loading_time: 15/11/2024 14:52:50
+tokenizer_path: tokenizer/tokenizer_mf10M.model
+finished_time_utc: 15/11/2024 14:54:18
+generation_time: 00:01:24
+wall_time_utc: 00:01:27
+evaluation_0:
+    average_num_of_predictions: '0.9814814814814815'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:00:04
+    formula_stats:
+        num_all_correct_formulas: 29 / 106
+        num_at_least_one_correct_formula: '29'
+        num_correct_formulas_at_best_prob: '29'
+        num_correct_formulas_at_best_simil: '29'
+        rate_of_all_correct_formulas: '0.27358490566037735'
+        rate_of_at_least_one_correct_formula: '0.26851851851851855'
+        rate_of_correct_formulas_at_best_prob: '0.26851851851851855'
+        rate_of_correct_formulas_at_best_simil: '0.26851851851851855'
+    hit_at_k_prob: '[(1, 0.23148148148148148)]'
+    labels_path: data/rcx_inhouse/rcx_inhouse_overlaps_only.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '37.161814713320744'
+        mean_absolute_mw_difference_best_simil: '37.161814713320744'
+        mean_relative_mw_difference_best_prob: 11.78%
+        mean_relative_mw_difference_best_simil: 11.78%
+        rate_of_exact_mw_prob: '0.26851851851851855'
+        rate_of_exact_mw_simil: '0.26851851851851855'
+        rate_of_exact_nominal_mw_simil: '0.28703703703703703'
+        rate_of_mw_difference_less_than_1_best_prob: '0.28703703703703703'
+        rate_of_mw_difference_less_than_1_best_simil: '0.28703703703703703'
+    num_datapoints_tested: '108'
+    num_empty_preds: '2'
+    num_predictions_at_k_counter: '[108]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '25'
+        num_precise_preds_similsort: '25'
+        rate_of_precise_preds_probsort: '0.23148148148148148'
+        rate_of_precise_preds_similsort: '0.23148148148148148'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 25)])
+        num_1_hits_as_first_probsort: '25'
+        num_1_hits_as_first_similsort: '25'
+        num_fp_simil_fail_prob: '0'
+        num_fp_simil_fail_simil: '0'
+        rate_of_1_hits_as_first_probsort: '0.23148148148148148'
+        rate_of_1_hits_as_first_similsort: '0.23148148148148148'
+    start_time_utc: 15/11/2024 15:17:18
+    threshold_stats:
+        num_better_than_threshold_probsort: '25'
+        num_better_than_threshold_similsort: '25'
+        rate_of_better_than_threshold_probsort: '0.23148148148148148'
+        rate_of_better_than_threshold_similsort: '0.23148148148148148'
+        threshold: '0.85'
+    topk_probsort: '[0.45818242785606345]'
+    topk_similsort: '[0.45818242785606345]'
+evaluation_1:
+    average_num_of_predictions: '0.9814814814814815'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:00:03
+    formula_stats:
+        num_all_correct_formulas: 29 / 106
+        num_at_least_one_correct_formula: '29'
+        num_correct_formulas_at_best_prob: '29'
+        num_correct_formulas_at_best_simil: '29'
+        rate_of_all_correct_formulas: '0.27358490566037735'
+        rate_of_at_least_one_correct_formula: '0.26851851851851855'
+        rate_of_correct_formulas_at_best_prob: '0.26851851851851855'
+        rate_of_correct_formulas_at_best_simil: '0.26851851851851855'
+    hit_at_k_prob: '[(1, 0.23148148148148148)]'
+    labels_path: data/rcx_inhouse/rcx_inhouse_overlaps_only.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '37.161814713320744'
+        mean_absolute_mw_difference_best_simil: '37.161814713320744'
+        mean_relative_mw_difference_best_prob: 11.78%
+        mean_relative_mw_difference_best_simil: 11.78%
+        rate_of_exact_mw_prob: '0.26851851851851855'
+        rate_of_exact_mw_simil: '0.26851851851851855'
+        rate_of_exact_nominal_mw_simil: '0.28703703703703703'
+        rate_of_mw_difference_less_than_1_best_prob: '0.28703703703703703'
+        rate_of_mw_difference_less_than_1_best_simil: '0.28703703703703703'
+    num_datapoints_tested: '108'
+    num_empty_preds: '2'
+    num_predictions_at_k_counter: '[108]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '25'
+        num_precise_preds_similsort: '25'
+        rate_of_precise_preds_probsort: '0.23148148148148148'
+        rate_of_precise_preds_similsort: '0.23148148148148148'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 25)])
+        num_1_hits_as_first_probsort: '25'
+        num_1_hits_as_first_similsort: '25'
+        num_fp_simil_fail_prob: '0'
+        num_fp_simil_fail_simil: '0'
+        rate_of_1_hits_as_first_probsort: '0.23148148148148148'
+        rate_of_1_hits_as_first_similsort: '0.23148148148148148'
+    start_time_utc: 15/11/2024 15:21:26
+    threshold_stats:
+        num_better_than_threshold_probsort: '25'
+        num_better_than_threshold_similsort: '25'
+        rate_of_better_than_threshold_probsort: '0.23148148148148148'
+        rate_of_better_than_threshold_similsort: '0.23148148148148148'
+        threshold: '0.85'
+    topk_probsort: '[0.45818242785606345]'
+    topk_similsort: '[0.45818242785606345]'
+evaluation_2:
+    average_num_of_predictions: '0.9814814814814815'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:00:02
+    formula_stats:
+        num_all_correct_formulas: 29 / 106
+        num_at_least_one_correct_formula: '29'
+        num_correct_formulas_at_best_prob: '29'
+        num_correct_formulas_at_best_simil: '29'
+        rate_of_all_correct_formulas: '0.27358490566037735'
+        rate_of_at_least_one_correct_formula: '0.26851851851851855'
+        rate_of_correct_formulas_at_best_prob: '0.26851851851851855'
+        rate_of_correct_formulas_at_best_simil: '0.26851851851851855'
+    hit_at_k_prob: '[(1, 0.23148148148148148)]'
+    labels_path: data/rcx_inhouse/rcx_inhouse_overlaps_only.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '37.161814713320744'
+        mean_absolute_mw_difference_best_simil: '37.161814713320744'
+        mean_relative_mw_difference_best_prob: 11.78%
+        mean_relative_mw_difference_best_simil: 11.78%
+        rate_of_exact_mw_prob: '0.26851851851851855'
+        rate_of_exact_mw_simil: '0.26851851851851855'
+        rate_of_exact_nominal_mw_simil: '0.28703703703703703'
+        rate_of_mw_difference_less_than_1_best_prob: '0.28703703703703703'
+        rate_of_mw_difference_less_than_1_best_simil: '0.28703703703703703'
+    num_datapoints_tested: '108'
+    num_empty_preds: '2'
+    num_predictions_at_k_counter: '[108]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '25'
+        num_precise_preds_similsort: '25'
+        rate_of_precise_preds_probsort: '0.23148148148148148'
+        rate_of_precise_preds_similsort: '0.23148148148148148'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 25)])
+        num_1_hits_as_first_probsort: '25'
+        num_1_hits_as_first_similsort: '25'
+        num_fp_simil_fail_prob: '0'
+        num_fp_simil_fail_simil: '0'
+        rate_of_1_hits_as_first_probsort: '0.23148148148148148'
+        rate_of_1_hits_as_first_similsort: '0.23148148148148148'
+    start_time_utc: 15/11/2024 15:31:06
+    threshold_stats:
+        num_better_than_threshold_probsort: '25'
+        num_better_than_threshold_similsort: '25'
+        rate_of_better_than_threshold_probsort: '0.23148148148148148'
+        rate_of_better_than_threshold_similsort: '0.23148148148148148'
+        threshold: '0.85'
+    topk_probsort: '[0.45818242785606345]'
+    topk_similsort: '[0.45818242785606345]'
+evaluation_3:
+    average_num_of_predictions: '0.9814814814814815'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:00:02
+    formula_stats:
+        num_all_correct_formulas: 29 / 106
+        num_at_least_one_correct_formula: '29'
+        num_correct_formulas_at_best_prob: '29'
+        num_correct_formulas_at_best_simil: '29'
+        rate_of_all_correct_formulas: '0.27358490566037735'
+        rate_of_at_least_one_correct_formula: '0.26851851851851855'
+        rate_of_correct_formulas_at_best_prob: '0.26851851851851855'
+        rate_of_correct_formulas_at_best_simil: '0.26851851851851855'
+    hit_at_k_prob: '[(1, 0.23148148148148148)]'
+    labels_path: data/rcx_inhouse/rcx_inhouse_overlaps_only.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '37.161814713320744'
+        mean_absolute_mw_difference_best_simil: '37.161814713320744'
+        mean_relative_mw_difference_best_prob: 11.78%
+        mean_relative_mw_difference_best_simil: 11.78%
+        rate_of_exact_mw_prob: '0.26851851851851855'
+        rate_of_exact_mw_simil: '0.26851851851851855'
+        rate_of_exact_nominal_mw_simil: '0.28703703703703703'
+        rate_of_mw_difference_less_than_1_best_prob: '0.28703703703703703'
+        rate_of_mw_difference_less_than_1_best_simil: '0.28703703703703703'
+    num_datapoints_tested: '108'
+    num_empty_preds: '2'
+    num_predictions_at_k_counter: '[108]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '25'
+        num_precise_preds_similsort: '25'
+        rate_of_precise_preds_probsort: '0.23148148148148148'
+        rate_of_precise_preds_similsort: '0.23148148148148148'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 25)])
+        num_1_hits_as_first_probsort: '25'
+        num_1_hits_as_first_similsort: '25'
+        num_fp_simil_fail_prob: '0'
+        num_fp_simil_fail_simil: '0'
+        rate_of_1_hits_as_first_probsort: '0.23148148148148148'
+        rate_of_1_hits_as_first_similsort: '0.23148148148148148'
+    start_time_utc: 20/11/2024 21:36:37
+    threshold_stats:
+        num_better_than_threshold_probsort: '25'
+        num_better_than_threshold_similsort: '25'
+        rate_of_better_than_threshold_probsort: '0.23148148148148148'
+        rate_of_better_than_threshold_similsort: '0.23148148148148148'
+        threshold: '0.85'
+    topk_probsort: '[0.45818242785606345]'
+    topk_similsort: '[0.45818242785606345]'
+evaluation_4:
+    average_num_of_predictions: '0.9814814814814815'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:00:02
+    formula_stats:
+        num_all_correct_formulas: 29 / 106
+        num_at_least_one_correct_formula: '29'
+        num_correct_formulas_at_best_prob: '29'
+        num_correct_formulas_at_best_simil: '29'
+        rate_of_all_correct_formulas: '0.27358490566037735'
+        rate_of_at_least_one_correct_formula: '0.26851851851851855'
+        rate_of_correct_formulas_at_best_prob: '0.26851851851851855'
+        rate_of_correct_formulas_at_best_simil: '0.26851851851851855'
+    hit_at_k_prob: '[(1, 0.23148148148148148)]'
+    labels_path: data/rcx_inhouse/rcx_inhouse_overlaps_only.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '37.161814713320744'
+        mean_absolute_mw_difference_best_simil: '37.161814713320744'
+        mean_relative_mw_difference_best_prob: 11.78%
+        mean_relative_mw_difference_best_simil: 11.78%
+        rate_of_exact_mw_prob: '0.26851851851851855'
+        rate_of_exact_mw_simil: '0.26851851851851855'
+        rate_of_exact_nominal_mw_simil: '0.28703703703703703'
+        rate_of_mw_difference_less_than_1_best_prob: '0.28703703703703703'
+        rate_of_mw_difference_less_than_1_best_simil: '0.28703703703703703'
+    num_datapoints_tested: '108'
+    num_empty_preds: '2'
+    num_predictions_at_k_counter: '[108]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '25'
+        num_precise_preds_similsort: '25'
+        rate_of_precise_preds_probsort: '0.23148148148148148'
+        rate_of_precise_preds_similsort: '0.23148148148148148'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 25)])
+        num_1_hits_as_first_probsort: '25'
+        num_1_hits_as_first_similsort: '25'
+        num_fp_simil_fail_prob: '0'
+        num_fp_simil_fail_simil: '0'
+        rate_of_1_hits_as_first_probsort: '0.23148148148148148'
+        rate_of_1_hits_as_first_similsort: '0.23148148148148148'
+    start_time_utc: 20/11/2024 21:44:33
+    threshold_stats:
+        num_better_than_threshold_probsort: '25'
+        num_better_than_threshold_similsort: '25'
+        rate_of_better_than_threshold_probsort: '0.23148148148148148'
+        rate_of_better_than_threshold_similsort: '0.23148148148148148'
+        threshold: '0.85'
+    topk_probsort: '[0.45818242785606345]'
+    topk_similsort: '[0.45818242785606345]'

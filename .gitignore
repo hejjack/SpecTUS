@@ -12,6 +12,7 @@ data/**/*.sel
 data/**/*.SIF
 data/**/*.log
 data/deprecated/*
+!data/example/SWGDRUG_100.msp
 
 data/categorized
 neims_gen_analysis_ntbs/*
@@ -21,10 +22,6 @@ zia_training_stuff_30M/*
 deprecated/*
 RLHF/**
 FastEI/**
-
-# meta logs
-**/BARTSpektro_experiment*
-**/JupyterLabPyTorch_GPU*
 
 # big files
 data/categorized_michal.csv
@@ -58,3 +55,9 @@ predictions/**/*.csv
 
 # figures (just for paper purposes)
 figures/**
+
+# vscode
+.vscode/**
+
+# hidden folders
+hidden/**

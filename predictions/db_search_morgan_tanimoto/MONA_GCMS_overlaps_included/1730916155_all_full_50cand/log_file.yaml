@@ -1,0 +1,113 @@
+command: spectus/predict_db_search.py --output-folder predictions --config-file configs/predict_db_search_mt_extra_libs.yaml
+  --num-workers 25
+dataset:
+  data_split: all
+  dataset_name: MONA_GCMS_overlaps_included
+  query_data: data/extra_libraries/MONA_GCMS/MONA_GCMS_overlaps_included.jsonl
+  reference_data: data/nist/train.jsonl
+filtering_args:
+  max_mol_repr_len: 100
+  max_mz: 500
+  max_num_peaks: 300
+  mol_repr: smiles
+general:
+  additional_naming_info: ''
+  num_candidates: 50
+  ranking_function: morgan_tanimoto
+start_loading_time: 06/11/2024 19:02:34
+tokenizer_path: tokenizer/tokenizer_mf10M.model
+finished_time_utc: 06/11/2024 23:21:04
+generation_time: 04:18:20
+wall_time_utc: 04:18:29
+evaluation_0:
+    average_num_of_predictions: '27.832360206602292'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:01:21
+    formula_stats:
+        num_all_correct_formulas: 20189 / 495750
+        num_at_least_one_correct_formula: '14120'
+        num_correct_formulas_at_best_prob: '11689'
+        num_correct_formulas_at_best_simil: '12913'
+        rate_of_all_correct_formulas: '0.04072415532022189'
+        rate_of_at_least_one_correct_formula: '0.7927240062878959'
+        rate_of_correct_formulas_at_best_prob: '0.6562429822591511'
+        rate_of_correct_formulas_at_best_simil: '0.7249607006512464'
+    hit_at_k_prob: '[(1, 0.7433752526386705)]'
+    labels_path: data/extra_libraries/MONA_GCMS/MONA_GCMS_overlaps_included.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '23.14294802372168'
+        mean_absolute_mw_difference_best_simil: '23.14294802372168'
+        mean_relative_mw_difference_best_prob: 12.92%
+        mean_relative_mw_difference_best_simil: 12.92%
+        rate_of_exact_mw_prob: '0.6559061306984055'
+        rate_of_exact_mw_simil: '0.6559061306984055'
+        rate_of_exact_nominal_mw_simil: '0.6566359757466876'
+        rate_of_mw_difference_less_than_1_best_prob: '0.6657309678868178'
+        rate_of_mw_difference_less_than_1_best_simil: '0.6657309678868178'
+    num_datapoints_tested: '17812'
+    num_empty_preds: '0'
+    num_predictions_at_k_counter: '[17812, 17812, 17812, 17812, 17812, 17812, 17812,
+        17812, 17811, 17803, 17775, 17766, 17710, 17645, 17478, 17300, 16954, 16455,
+        15869, 15144, 14470, 13539, 12590, 11878, 11037, 10048, 9114, 8348, 7590,
+        6921, 6209, 5572, 4898, 4299, 3748, 3169, 2810, 2432, 2069, 1679, 1350, 1079,
+        850, 639, 460, 328, 235, 101, 56, 26]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '11516'
+        num_precise_preds_similsort: '12710'
+        rate_of_precise_preds_probsort: '0.6465304289243207'
+        rate_of_precise_preds_similsort: '0.7135638895126881'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 11373), (2, 203), (20, 79), (8, 78),
+            (3, 138), (11, 31), (4, 133), (6, 83), (21, 177), (7, 91), (13, 14), (9,
+            84), (10, 65), (16, 103), (17, 86), (25, 133), (18, 65), (12, 77), (47,
+            72), (15, 71), (5, 54), (42, 3), (14, 25), (32, 3)])
+        num_1_hits_as_first_probsort: '13241'
+        num_1_hits_as_first_similsort: '13241'
+        num_fp_simil_fail_prob: '1725'
+        num_fp_simil_fail_simil: '531'
+        rate_of_1_hits_as_first_probsort: '0.7433752526386705'
+        rate_of_1_hits_as_first_similsort: '0.7433752526386705'
+    start_time_utc: 07/11/2024 18:56:47
+    threshold_stats:
+        num_better_than_threshold_probsort: '13763'
+        num_better_than_threshold_similsort: '13763'
+        rate_of_better_than_threshold_probsort: '0.7726813384235347'
+        rate_of_better_than_threshold_similsort: '0.7726813384235347'
+        threshold: '0.85'
+    topk_probsort: '[0.9155178614835296, 0.707429406917876, 0.6621192846986763, 0.6357569346724072,
+        0.616212906163409, 0.6017199217110262, 0.5891750875034482, 0.5784032621294241,
+        0.5686645033110761, 0.56049110795259, 0.5524137652036527, 0.5456353114077463,
+        0.5393475190236204, 0.5337181235963222, 0.5287030396169522, 0.5228801243595684,
+        0.5184676126646846, 0.5127012720822173, 0.5062916912859652, 0.500891701152828,
+        0.4928704050594979, 0.482675549821001, 0.47774325487961494, 0.47477866484327125,
+        0.46967109721669237, 0.4587445241564857, 0.45509108146657584, 0.4517612235006067,
+        0.4487974665426549, 0.44613389559362954, 0.44504470116204237, 0.4438195467868634,
+        0.4397434243726268, 0.43624890615650513, 0.4331338294102123, 0.42983725232577924,
+        0.43216275178183333, 0.4317826279063617, 0.4343710653349793, 0.43692645866927765,
+        0.4456313699588822, 0.4554222518802367, 0.46513958472520506, 0.47366677322307144,
+        0.5149918864875631, 0.5490541874911348, 0.6063870908112391, 0.4334318827874435,
+        0.4087311203192055, 0.37110509330271507]'
+    topk_similsort: '[0.9155178614835296, 0.707429406917876, 0.6621192846986763, 0.6357569346724072,
+        0.616212906163409, 0.6017199217110262, 0.5891750875034482, 0.5784032621294241,
+        0.5686645033110761, 0.56049110795259, 0.5524137652036527, 0.5456353114077463,
+        0.5393475190236204, 0.5337181235963222, 0.5287030396169522, 0.5228801243595684,
+        0.5184676126646846, 0.5127012720822173, 0.5062916912859652, 0.500891701152828,
+        0.4928704050594979, 0.482675549821001, 0.47774325487961494, 0.47477866484327125,
+        0.46967109721669237, 0.4587445241564857, 0.45509108146657584, 0.4517612235006067,
+        0.4487974665426549, 0.44613389559362954, 0.44504470116204237, 0.4438195467868634,
+        0.4397434243726268, 0.43624890615650513, 0.4331338294102123, 0.42983725232577924,
+        0.43216275178183333, 0.4317826279063617, 0.4343710653349793, 0.43692645866927765,
+        0.4456313699588822, 0.4554222518802367, 0.46513958472520506, 0.47366677322307144,
+        0.5149918864875631, 0.5490541874911348, 0.6063870908112391, 0.4334318827874435,
+        0.4087311203192055, 0.37110509330271507]'

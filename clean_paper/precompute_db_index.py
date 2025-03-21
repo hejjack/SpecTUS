@@ -1,1 +1,0 @@
-../precompute_db_index.py

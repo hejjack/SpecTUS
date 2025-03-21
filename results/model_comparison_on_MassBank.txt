@@ -1,0 +1,19 @@
+### STATISTICAL SIGNIFICANCE OF MODEL COMPARISON ###
+
+
+Mean morgan tanimoto similarities with ground truth
+|                                          |   similsort_mean_simil |   probsort_mean_simil |
+|:-----------------------------------------|-----------------------:|----------------------:|
+| youthful-wave-590_exp5_9M_448+296_beam10 |               0.64323  |              0.493004 |
+| youthful-wave-590_exp5_9M_448+296_greedy |               0.489522 |              0.489522 |
+
+Exact matches
+|                                          |   rate_of_precise_preds_similsort |   rate_of_precise_preds_probsort |
+|:-----------------------------------------|----------------------------------:|---------------------------------:|
+| youthful-wave-590_exp5_9M_448+296_beam10 |                          0.453426 |                         0.264819 |
+| youthful-wave-590_exp5_9M_448+296_greedy |                          0.264819 |                         0.264819 |
+
+Results of the statistical test:
+--------------------------------
+Wilcoxon signed-rank test (probsort): statistic=21139.0, p-value=0.025825724594376057   * significant
+Wilcoxon signed-rank test (similsort): statistic=0.0, p-value=0.025825724594376057   *** highly significant

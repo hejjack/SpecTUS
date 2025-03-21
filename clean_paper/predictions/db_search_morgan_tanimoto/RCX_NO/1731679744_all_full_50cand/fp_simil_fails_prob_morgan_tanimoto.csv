@@ -1,5 +1,0 @@
-pred,label
-C[Si](C)(C)OC(=O)CCCCCCCCCCCCCCCCC(=O)O[Si](C)(C)C,C[Si](C)(C)OC(=O)CCCCCCC(=O)O[Si](C)(C)C
-CCCCCCCCCCC(=O)O[Si](C)(C)C,CCCCCCCCCCCCCCCC(=O)O[Si](C)(C)C
-CCCCCCCCCCCC=CCCCCC(=O)O[Si](C)(C)C,CCCCCCC=CCCCCCCCC(=O)O[Si](C)(C)C
-C[Si](C)(C)N(CCCCN(CCCN([Si](C)(C)C)[Si](C)(C)C)[Si](C)(C)C)CCCN([Si](C)(C)C)[Si](C)(C)C,C[Si](C)(C)N(CCCCN([Si](C)(C)C)[Si](C)(C)C)CCCN([Si](C)(C)C)[Si](C)(C)C

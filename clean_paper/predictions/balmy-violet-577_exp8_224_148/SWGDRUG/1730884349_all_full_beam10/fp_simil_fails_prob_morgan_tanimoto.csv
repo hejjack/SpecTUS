@@ -1,4 +1,0 @@
-pred,label
-c1csc(C2(N3CCCCC3)CCCCCC2)c1,c1csc(C2(N3CCCCC3)CCCCC2)c1
-c1ccc(C2(N3CCCC3)CCCCCC2)cc1,c1ccc(C2(N3CCCC3)CCCCC2)cc1
-O=C(c1cccc2ccccc12)c1cn(CCCCCF)c2ccccc12,O=C(c1cccc2ccccc12)c1cn(CCCCCCF)c2ccccc12
