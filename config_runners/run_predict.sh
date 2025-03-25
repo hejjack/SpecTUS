@@ -1,3 +1,3 @@
-python ../predict.py --checkpoint ../checkpoints/finetune/fearless-wildflower-490_rassp1_neims1_224kPretrain_148k/checkpoint-147476 \
-                    --output-folder ../predictions \
-                    --config-file ../configs/predict_config_nist_test_greedy.yaml \
+CUDA_VISIBLE_DEVICES=2 python spectus/predict.py --checkpoint checkpoints/finetune_clean/youthful-wave-590_exp5_9M_448+296/checkpoint-294952 \
+                                          --output-folder predictions_debug \
+                                          --config-file configs/predict_nist_test_beam10.yaml \

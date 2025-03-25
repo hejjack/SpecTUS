@@ -1,0 +1,131 @@
+command: predict.py --checkpoint checkpoints/finetune_clean/youthful-wave-590_exp5_9M_448+296/checkpoint-294952
+  --output-folder predictions --config-file configs/predict_rcx_inhouse_beam50.yaml
+cuda_visible_devices: GPU-9c7e3cb8-d7e4-720e-d6c3-bd8b1d5256d9
+dataloader:
+  batch_size: 1
+  num_workers: 1
+dataset:
+  data_path: data/rcx_inhouse/rcx_inhouse_no_overlaps.jsonl
+  data_split: all
+  dataset_name: RCX_NO
+general:
+  additional_naming_info: beam50
+  device: cuda
+generation_args:
+  do_sample: false
+  length_penalty: 1.0
+  max_length: 200
+  num_beams: 50
+  num_return_sequences: 50
+  penalty_alpha: null
+  temperature: null
+  top_k: null
+  top_p: null
+preprocess_args:
+  inference_mode: true
+  log_base: 1.28
+  log_shift: 29
+  max_cumsum: null
+  max_mol_repr_len: 100
+  max_mz: 500
+  max_num_peaks: 300
+  mol_repr: smiles
+  restrict_intensities: false
+  source_token: <nist>
+start_loading_time: 05/01/2025 21:45:07
+tokenizer_path: tokenizer/tokenizer_mf10M.model
+finished_time_utc: 05/01/2025 22:48:47
+generation_time: 01:03:37
+wall_time_utc: 01:03:40
+evaluation_0:
+    average_num_of_predictions: '46.549549549549546'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:00:04
+    formula_stats:
+        num_all_correct_formulas: 72 / 5167
+        num_at_least_one_correct_formula: '31'
+        num_correct_formulas_at_best_prob: '4'
+        num_correct_formulas_at_best_simil: '17'
+        rate_of_all_correct_formulas: '0.013934584865492549'
+        rate_of_at_least_one_correct_formula: '0.27927927927927926'
+        rate_of_correct_formulas_at_best_prob: '0.036036036036036036'
+        rate_of_correct_formulas_at_best_simil: '0.15315315315315314'
+    hit_at_k_prob: '[(1, 0.02702702702702703), (2, 0.04504504504504504), (3, 0.05405405405405406),
+        (4, 0.06306306306306306), (5, 0.07207207207207207), (7, 0.08108108108108109),
+        (8, 0.09009009009009009), (25, 0.0990990990990991), (26, 0.10810810810810811),
+        (32, 0.11711711711711711), (36, 0.12612612612612611), (38, 0.13513513513513514),
+        (41, 0.14414414414414414), (45, 0.15315315315315314)]'
+    labels_path: data/rcx_inhouse/rcx_inhouse_no_overlaps.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '53.84421157590826'
+        mean_absolute_mw_difference_best_simil: '48.12248855090169'
+        mean_relative_mw_difference_best_prob: 15.79%
+        mean_relative_mw_difference_best_simil: 14.89%
+        rate_of_exact_mw_prob: '0.036036036036036036'
+        rate_of_exact_mw_simil: '0.16216216216216217'
+        rate_of_exact_nominal_mw_simil: '0.17117117117117117'
+        rate_of_mw_difference_less_than_1_best_prob: '0.07207207207207207'
+        rate_of_mw_difference_less_than_1_best_simil: '0.1891891891891892'
+    num_datapoints_tested: '111'
+    num_empty_preds: '0'
+    num_predictions_at_k_counter: '[111, 111, 111, 111, 111, 111, 111, 111, 111, 111,
+        111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111,
+        111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 110, 108, 107, 106, 104,
+        103, 100, 95, 88, 85, 80, 71, 60, 42, 23]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '2'
+        num_precise_preds_similsort: '16'
+        rate_of_precise_preds_probsort: '0.018018018018018018'
+        rate_of_precise_preds_similsort: '0.14414414414414414'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 16), (3, 1)])
+        num_1_hits_as_first_probsort: '3'
+        num_1_hits_as_first_similsort: '17'
+        num_fp_simil_fail_prob: '1'
+        num_fp_simil_fail_simil: '1'
+        rate_of_1_hits_as_first_probsort: '0.02702702702702703'
+        rate_of_1_hits_as_first_similsort: '0.15315315315315314'
+    start_time_utc: 07/01/2025 13:50:00
+    threshold_stats:
+        num_better_than_threshold_probsort: '4'
+        num_better_than_threshold_similsort: '19'
+        rate_of_better_than_threshold_probsort: '0.036036036036036036'
+        rate_of_better_than_threshold_similsort: '0.17117117117117117'
+        threshold: '0.85'
+    topk_probsort: '[0.3355953777802491, 0.311376318844844, 0.28430964629318384, 0.2832748390100131,
+        0.26530084523676906, 0.2701115047609688, 0.2841276196033621, 0.28404401333569523,
+        0.27830302753836883, 0.2692605290625763, 0.26239410441188393, 0.26636666483231003,
+        0.2740524786346624, 0.2750658785654698, 0.2596045777826067, 0.26456300145454636,
+        0.26863046364589205, 0.24767568042528276, 0.26831673446266047, 0.26118835979975386,
+        0.26315699502304885, 0.24635098161856736, 0.23959752401713247, 0.24754547762541917,
+        0.2663458983297251, 0.2688014942149578, 0.24606878865701215, 0.24365858706884663,
+        0.24491771474288923, 0.2488424563323852, 0.234163184056051, 0.244429533723259,
+        0.23526240301068543, 0.23936231958618706, 0.24984394721253084, 0.24890613218409366,
+        0.24419273656833954, 0.24977706268783506, 0.23644450471830283, 0.2441173820681111,
+        0.24986148602286856, 0.22864180421090696, 0.21835047745147515, 0.22703758250761835,
+        0.2210157390140956, 0.23178680884339184, 0.22892561969355107, 0.23367348810294908,
+        0.22290873474176082, 0.22421571448045438]'
+    topk_similsort: '[0.5205126855638298, 0.44535106750957276, 0.41119972940665134,
+        0.3901674936535889, 0.37473352261561804, 0.3614273056551127, 0.34795407554773744,
+        0.3359156311727927, 0.32609848774215977, 0.31543517079274425, 0.309341783774367,
+        0.3022239139193251, 0.29611467913422357, 0.29045817151933356, 0.2844582960102296,
+        0.2785680530187222, 0.2740454133213523, 0.26967050432135176, 0.26479374342887385,
+        0.25981790126310716, 0.2556830939749146, 0.25096372719495075, 0.24581909416853115,
+        0.2402422015079135, 0.23681952248886426, 0.23281545859957717, 0.22924756737782984,
+        0.2250569957472756, 0.22068257433141983, 0.2165669942514461, 0.2131088432722271,
+        0.20824843415237113, 0.20408487889824323, 0.2005107466506134, 0.19655446263442075,
+        0.19396468398191197, 0.18798664040379584, 0.185617194230642, 0.1800800654228189,
+        0.17753357464766015, 0.17220666631978254, 0.16610409703706647, 0.15860027608395366,
+        0.15543487365002018, 0.14862364591307595, 0.14512923873197608, 0.1429718910092374,
+        0.13855609453254158, 0.13039549017821625, 0.12769839995250176]'

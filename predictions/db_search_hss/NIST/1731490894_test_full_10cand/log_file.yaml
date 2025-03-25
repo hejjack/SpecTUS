@@ -1,0 +1,91 @@
+command: spectus/predict_db_search.py --output-folder predictions --config-file configs/predict_db_search_hss.yaml
+  --num-workers 1
+dataset:
+  data_split: test
+  dataset_name: NIST
+  query_data: data/nist/test.jsonl
+  reference_data: data/nist/train.jsonl
+filtering_args:
+  max_mol_repr_len: 100
+  max_mz: 500
+  max_num_peaks: 300
+  mol_repr: smiles
+general:
+  additional_naming_info: ''
+  num_candidates: 10
+  ranking_function: hss
+start_loading_time: 13/11/2024 10:41:33
+tokenizer_path: tokenizer/tokenizer_mf10M.model
+finished_time_utc: 13/11/2024 10:41:34
+generation_time: 00:00:00
+wall_time_utc: 00:00:00
+evaluation_0:
+    average_num_of_predictions: '10.0'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:01:00
+    formula_stats:
+        num_all_correct_formulas: 10940 / 282670
+        num_at_least_one_correct_formula: '6663'
+        num_correct_formulas_at_best_prob: '3235'
+        num_correct_formulas_at_best_simil: '3266'
+        rate_of_all_correct_formulas: '0.038702373792761875'
+        rate_of_at_least_one_correct_formula: '0.23571655994622706'
+        rate_of_correct_formulas_at_best_prob: '0.11444440513673187'
+        rate_of_correct_formulas_at_best_simil: '0.11554109031733116'
+    hit_at_k_prob: '[(1, 0.08794707609580076), (2, 0.09841865072345846), (3, 0.10400820745038385),
+        (4, 0.1069091166377755), (5, 0.109314748646832), (6, 0.11034067994481198),
+        (7, 0.11172038065588849), (8, 0.11274631195386847), (9, 0.11377224325184844),
+        (10, 0.11469204372589946)]'
+    labels_path: data/nist/test_with_db_index.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '39.76677364323652'
+        mean_absolute_mw_difference_best_simil: '38.03928305620949'
+        mean_relative_mw_difference_best_prob: 15.32%
+        mean_relative_mw_difference_best_simil: 14.68%
+        rate_of_exact_mw_prob: '0.11239254254077193'
+        rate_of_exact_mw_simil: '0.07369016874801004'
+        rate_of_exact_nominal_mw_simil: '0.07790002476385892'
+        rate_of_mw_difference_less_than_1_best_prob: '0.1328757915590618'
+        rate_of_mw_difference_less_than_1_best_simil: '0.09955071284536739'
+    num_datapoints_tested: '28267'
+    num_empty_preds: '0'
+    num_predictions_at_k_counter: '[28267, 28267, 28267, 28267, 28267, 28267, 28267,
+        28267, 28267, 28267]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '0'
+        num_precise_preds_similsort: '0'
+        rate_of_precise_preds_probsort: '0.0'
+        rate_of_precise_preds_similsort: '0.0'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 611), (2, 390), (6, 349), (8, 214),
+            (5, 391), (7, 278), (4, 418), (3, 405), (9, 120), (10, 66)])
+        num_1_hits_as_first_probsort: '2486'
+        num_1_hits_as_first_similsort: '3242'
+        num_fp_simil_fail_prob: '2486'
+        num_fp_simil_fail_simil: '3242'
+        rate_of_1_hits_as_first_probsort: '0.08794707609580076'
+        rate_of_1_hits_as_first_similsort: '0.11469204372589946'
+    start_time_utc: 13/11/2024 10:46:18
+    threshold_stats:
+        num_better_than_threshold_probsort: '3377'
+        num_better_than_threshold_similsort: '4819'
+        rate_of_better_than_threshold_probsort: '0.1194679308027028'
+        rate_of_better_than_threshold_similsort: '0.1704814801712244'
+        threshold: '0.85'
+    topk_probsort: '[0.4480796665425684, 0.3894627370392666, 0.35872749236957646,
+        0.3383748551496237, 0.32386213967510935, 0.31021048057694817, 0.3006421163094892,
+        0.29113982478684247, 0.28434476458034397, 0.27758580951829015]'
+    topk_similsort: '[0.572369231741356, 0.47250672623052825, 0.4121105444563126,
+        0.36795174555998644, 0.33151736997190373, 0.29836034002823225, 0.26701002307741556,
+        0.23613503554534163, 0.20309503990119526, 0.16137383003578673]'

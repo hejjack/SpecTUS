@@ -12,6 +12,7 @@ data/**/*.sel
 data/**/*.SIF
 data/**/*.log
 data/deprecated/*
+!data/example/SWGDRUG_100.msp
 
 data/categorized
 neims_gen_analysis_ntbs/*
@@ -23,15 +24,11 @@ hidden/*
 RLHF/**
 FastEI/**
 
-# meta logs
-**/BARTSpektro_experiment*
-**/JupyterLabPyTorch_GPU*
-
 # big files
 data/categorized_michal.csv
 # predictions/**/*.jsonl
 tokenizer/training_data/*.txt
-clean_paper/deep-molecular-massspec/tmp
+deep-molecular-massspec/tmp
 clean_paper/tokenizer/training_data/1M.txt
 
 # temporary files
@@ -49,13 +46,19 @@ notebooks/smaz_to_alfa*
 data/datasets/extra_libraries/read_me.pdf
 
 # prediction tmp files
-predictions/**/*.png
+# predictions/**/*.png
 predictions/**/*.csv
 
 # share NIST splits
-!clean_paper/data/nist/train.smi
-!clean_paper/data/nist/valid.smi
-!clean_paper/data/nist/test.smi
+!data/nist/train.smi
+!data/nist/valid.smi
+!data/nist/test.smi
 
 # figures (just for paper purposes)
 figures/**
+
+# vscode
+.vscode/**
+
+# hidden folders
+hidden/**

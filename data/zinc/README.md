@@ -1,0 +1,1 @@
+Downloading and preprocessing of the ZINC dataset for pretraining  SpecTUS is described in the [2_data_preprocessing.ipynb](../../notebooks/2_data_preprocessing.ipynb) notebook.

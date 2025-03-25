@@ -1,0 +1,140 @@
+### STATISTICAL SIGNIFICANCE OF MODEL COMPARISON ###
+
+
+Mean morgan tanimoto similarities with ground truth
+|                                          |   similsort_mean_simil |   probsort_mean_simil |
+|:-----------------------------------------|-----------------------:|----------------------:|
+| db_search_morgan_tanimoto                |               1        |              1        |
+| db_search_sss_50cands                    |               0.795213 |              0.494162 |
+| db_search_hss_50cands                    |               0.774114 |              0.382696 |
+| youthful-wave-590_exp5_9M_448+296_beam50 |               0.688353 |              0.471917 |
+| db_search_sss_10cands                    |               0.684126 |              0.494162 |
+| db_search_hss_10cands                    |               0.667806 |              0.382696 |
+| youthful-wave-590_exp5_9M_448+296_beam10 |               0.612436 |              0.473491 |
+| db_search_sss_1cands                     |               0.494162 |              0.494162 |
+| youthful-wave-590_exp5_9M_448+296_greedy |               0.444424 |              0.444424 |
+| db_search_hss_1cands                     |               0.382696 |              0.382696 |
+
+Exact matches
+|                                          |   rate_of_precise_preds_similsort |   rate_of_precise_preds_probsort |
+|:-----------------------------------------|----------------------------------:|---------------------------------:|
+| db_search_morgan_tanimoto                |                          0.925926 |                         0.925926 |
+| db_search_sss_50cands                    |                          0.657407 |                         0.342593 |
+| db_search_sss_10cands                    |                          0.518519 |                         0.342593 |
+| db_search_hss_50cands                    |                          0.518519 |                         0.157407 |
+| youthful-wave-590_exp5_9M_448+296_beam50 |                          0.435185 |                         0.240741 |
+| db_search_hss_10cands                    |                          0.37963  |                         0.157407 |
+| youthful-wave-590_exp5_9M_448+296_beam10 |                          0.361111 |                         0.25     |
+| db_search_sss_1cands                     |                          0.342593 |                         0.342593 |
+| youthful-wave-590_exp5_9M_448+296_greedy |                          0.212963 |                         0.212963 |
+| db_search_hss_1cands                     |                          0.157407 |                         0.157407 |
+
+Results of the statistical test:
+--------------------------------
+Friedman test (probsort): statistic=218.9846449136275, p-value=3.421871290994021e-42   *** highly significant
+Friedman test (similsort): statistic=392.19092389695015, p-value=3.421871290994021e-42   *** highly significant
+
+
+The Friedman test was SIGNIFICANT -> Nemenyi post-hoc test (probsort):
+|                                          |   youthful-wave-590_exp5_9M_448+296_beam10 |   youthful-wave-590_exp5_9M_448+296_beam50 |   youthful-wave-590_exp5_9M_448+296_greedy |   db_search_morgan_tanimoto |   db_search_sss_50cands |   db_search_sss_1cands |   db_search_sss_10cands |   db_search_hss_50cands |   db_search_hss_1cands |   db_search_hss_10cands |
+|:-----------------------------------------|-------------------------------------------:|-------------------------------------------:|-------------------------------------------:|----------------------------:|------------------------:|-----------------------:|------------------------:|------------------------:|-----------------------:|------------------------:|
+| youthful-wave-590_exp5_9M_448+296_beam10 |                                   1        |                                   0.9      |                                   0.9      |                       0.001 |                0.9      |               0.9      |                0.9      |                0.119254 |               0.119254 |                0.119254 |
+| youthful-wave-590_exp5_9M_448+296_beam50 |                                   0.9      |                                   1        |                                   0.9      |                       0.001 |                0.9      |               0.9      |                0.9      |                0.132682 |               0.132682 |                0.132682 |
+| youthful-wave-590_exp5_9M_448+296_greedy |                                   0.9      |                                   0.9      |                                   1        |                       0.001 |                0.9      |               0.9      |                0.9      |                0.522673 |               0.522673 |                0.522673 |
+| db_search_morgan_tanimoto                |                                   0.001    |                                   0.001    |                                   0.001    |                       1     |                0.001    |               0.001    |                0.001    |                0.001    |               0.001    |                0.001    |
+| db_search_sss_50cands                    |                                   0.9      |                                   0.9      |                                   0.9      |                       0.001 |                1        |               0.9      |                0.9      |                0.571032 |               0.571032 |                0.571032 |
+| db_search_sss_1cands                     |                                   0.9      |                                   0.9      |                                   0.9      |                       0.001 |                0.9      |               1        |                0.9      |                0.571032 |               0.571032 |                0.571032 |
+| db_search_sss_10cands                    |                                   0.9      |                                   0.9      |                                   0.9      |                       0.001 |                0.9      |               0.9      |                1        |                0.571032 |               0.571032 |                0.571032 |
+| db_search_hss_50cands                    |                                   0.119254 |                                   0.132682 |                                   0.522673 |                       0.001 |                0.571032 |               0.571032 |                0.571032 |                1        |               0.9      |                0.9      |
+| db_search_hss_1cands                     |                                   0.119254 |                                   0.132682 |                                   0.522673 |                       0.001 |                0.571032 |               0.571032 |                0.571032 |                0.9      |               1        |                0.9      |
+| db_search_hss_10cands                    |                                   0.119254 |                                   0.132682 |                                   0.522673 |                       0.001 |                0.571032 |               0.571032 |                0.571032 |                0.9      |               0.9      |                1        |
+
+
+The Friedman test was SIGNIFICANT -> Nemenyi post-hoc test (similsort):
+|                                          |   youthful-wave-590_exp5_9M_448+296_beam10 |   youthful-wave-590_exp5_9M_448+296_beam50 |   youthful-wave-590_exp5_9M_448+296_greedy |   db_search_morgan_tanimoto |   db_search_sss_50cands |   db_search_sss_1cands |   db_search_sss_10cands |   db_search_hss_50cands |   db_search_hss_1cands |   db_search_hss_10cands |
+|:-----------------------------------------|-------------------------------------------:|-------------------------------------------:|-------------------------------------------:|----------------------------:|------------------------:|-----------------------:|------------------------:|------------------------:|-----------------------:|------------------------:|
+| youthful-wave-590_exp5_9M_448+296_beam10 |                                  1         |                                   0.667758 |                                    0.001   |                   0.001     |               0.0312459 |               0.001    |                0.9      |               0.047632  |               0.001    |               0.9       |
+| youthful-wave-590_exp5_9M_448+296_beam50 |                                  0.667758  |                                   1        |                                    0.001   |                   0.001     |               0.9       |               0.001    |                0.9      |               0.9       |               0.001    |               0.81284   |
+| youthful-wave-590_exp5_9M_448+296_greedy |                                  0.001     |                                   0.001    |                                    1       |                   0.001     |               0.001     |               0.9      |                0.001    |               0.001     |               0.71612  |               0.001     |
+| db_search_morgan_tanimoto                |                                  0.001     |                                   0.001    |                                    0.001   |                   1         |               0.0429976 |               0.001    |                0.001    |               0.0279973 |               0.001    |               0.001     |
+| db_search_sss_50cands                    |                                  0.0312459 |                                   0.9      |                                    0.001   |                   0.0429976 |               1         |               0.001    |                0.188665 |               0.9       |               0.001    |               0.0644949 |
+| db_search_sss_1cands                     |                                  0.001     |                                   0.001    |                                    0.9     |                   0.001     |               0.001     |               1        |                0.001    |               0.001     |               0.480329 |               0.001     |
+| db_search_sss_10cands                    |                                  0.9       |                                   0.9      |                                    0.001   |                   0.001     |               0.188665  |               0.001    |                1        |               0.253096  |               0.001    |               0.9       |
+| db_search_hss_50cands                    |                                  0.047632  |                                   0.9      |                                    0.001   |                   0.0279973 |               0.9       |               0.001    |                0.253096 |               1         |               0.001    |               0.0935164 |
+| db_search_hss_1cands                     |                                  0.001     |                                   0.001    |                                    0.71612 |                   0.001     |               0.001     |               0.480329 |                0.001    |               0.001     |               1        |               0.001     |
+| db_search_hss_10cands                    |                                  0.9       |                                   0.81284  |                                    0.001   |                   0.001     |               0.0644949 |               0.001    |                0.9      |               0.0935164 |               0.001    |               1         |
+
+
+Rate of wins over database search predictions (probsort):
+|                                          |   db_search_morgan_tanimoto |   db_search_sss_50cands |   db_search_sss_1cands |   db_search_sss_10cands |   db_search_hss_50cands |   db_search_hss_1cands |   db_search_hss_10cands |
+|:-----------------------------------------|----------------------------:|------------------------:|-----------------------:|------------------------:|------------------------:|-----------------------:|------------------------:|
+| youthful-wave-590_exp5_9M_448+296_beam10 |                           0 |                0.444444 |               0.444444 |                0.444444 |                0.601852 |               0.601852 |                0.601852 |
+| youthful-wave-590_exp5_9M_448+296_beam50 |                           0 |                0.444444 |               0.444444 |                0.444444 |                0.601852 |               0.601852 |                0.601852 |
+| youthful-wave-590_exp5_9M_448+296_greedy |                           0 |                0.425926 |               0.425926 |                0.425926 |                0.564815 |               0.564815 |                0.564815 |
+
+
+Rate of wins over database search predictions (similsort):
+|                                          |   db_search_morgan_tanimoto |   db_search_sss_50cands |   db_search_sss_1cands |   db_search_sss_10cands |   db_search_hss_50cands |   db_search_hss_1cands |   db_search_hss_10cands |
+|:-----------------------------------------|----------------------------:|------------------------:|-----------------------:|------------------------:|------------------------:|-----------------------:|------------------------:|
+| youthful-wave-590_exp5_9M_448+296_beam10 |                           0 |                0.194444 |               0.583333 |                0.333333 |                0.25     |               0.722222 |                0.416667 |
+| youthful-wave-590_exp5_9M_448+296_beam50 |                           0 |                0.222222 |               0.583333 |                0.351852 |                0.296296 |               0.75     |                0.444444 |
+| youthful-wave-590_exp5_9M_448+296_greedy |                           0 |                0.12037  |               0.425926 |                0.240741 |                0.157407 |               0.564815 |                0.25     |
+
+
+Rate of at least as good as database search predictions (probsort):
+|                                          |   db_search_morgan_tanimoto |   db_search_sss_50cands |   db_search_sss_1cands |   db_search_sss_10cands |   db_search_hss_50cands |   db_search_hss_1cands |   db_search_hss_10cands |
+|:-----------------------------------------|----------------------------:|------------------------:|-----------------------:|------------------------:|------------------------:|-----------------------:|------------------------:|
+| youthful-wave-590_exp5_9M_448+296_beam10 |                    0.25     |                0.611111 |               0.611111 |                0.611111 |                0.685185 |               0.685185 |                0.685185 |
+| youthful-wave-590_exp5_9M_448+296_beam50 |                    0.240741 |                0.611111 |               0.611111 |                0.611111 |                0.675926 |               0.675926 |                0.675926 |
+| youthful-wave-590_exp5_9M_448+296_greedy |                    0.212963 |                0.574074 |               0.574074 |                0.574074 |                0.638889 |               0.638889 |                0.638889 |
+
+
+Rate of at least as good as database search predictions (similsort):
+|                                          |   db_search_morgan_tanimoto |   db_search_sss_50cands |   db_search_sss_1cands |   db_search_sss_10cands |   db_search_hss_50cands |   db_search_hss_1cands |   db_search_hss_10cands |
+|:-----------------------------------------|----------------------------:|------------------------:|-----------------------:|------------------------:|------------------------:|-----------------------:|------------------------:|
+| youthful-wave-590_exp5_9M_448+296_beam50 |                    0.435185 |                0.583333 |               0.787037 |                0.648148 |                0.601852 |               0.851852 |                0.685185 |
+| youthful-wave-590_exp5_9M_448+296_beam10 |                    0.361111 |                0.518519 |               0.768519 |                0.601852 |                0.527778 |               0.814815 |                0.638889 |
+| youthful-wave-590_exp5_9M_448+296_greedy |                    0.212963 |                0.314815 |               0.574074 |                0.407407 |                0.324074 |               0.638889 |                0.398148 |
+
+
+Rate of REAL wins over database search predictions - including exact matches (similsort):
+|                                          |   db_search_morgan_tanimoto |   db_search_sss_50cands |   db_search_sss_1cands |   db_search_sss_10cands |   db_search_hss_50cands |   db_search_hss_1cands |   db_search_hss_10cands |
+|:-----------------------------------------|----------------------------:|------------------------:|-----------------------:|------------------------:|------------------------:|-----------------------:|------------------------:|
+| youthful-wave-590_exp5_9M_448+296_beam10 |                  0.037037   |                0.203704 |               0.583333 |                0.333333 |                0.259259 |               0.731481 |                0.425926 |
+| youthful-wave-590_exp5_9M_448+296_beam50 |                  0.037037   |                0.231481 |               0.583333 |                0.351852 |                0.305556 |               0.759259 |                0.453704 |
+| youthful-wave-590_exp5_9M_448+296_greedy |                  0.00925926 |                0.12037  |               0.425926 |                0.240741 |                0.157407 |               0.574074 |                0.25     |
+
+
+Rate of REAL at least as good as database search predictions - including exact matches (similsort):
+|                                          |   db_search_morgan_tanimoto |   db_search_sss_50cands |   db_search_sss_1cands |   db_search_sss_10cands |   db_search_hss_50cands |   db_search_hss_1cands |   db_search_hss_10cands |
+|:-----------------------------------------|----------------------------:|------------------------:|-----------------------:|------------------------:|------------------------:|-----------------------:|------------------------:|
+| youthful-wave-590_exp5_9M_448+296_beam50 |                    0.435185 |                0.583333 |               0.787037 |                0.648148 |                0.601852 |               0.851852 |                0.685185 |
+| youthful-wave-590_exp5_9M_448+296_beam10 |                    0.361111 |                0.518519 |               0.768519 |                0.601852 |                0.527778 |               0.814815 |                0.638889 |
+| youthful-wave-590_exp5_9M_448+296_greedy |                    0.212963 |                0.314815 |               0.574074 |                0.407407 |                0.324074 |               0.638889 |                0.398148 |
+
+
+Mean difference in similarity to database search predictions (FPSD probsort):
+|                                          |   db_search_morgan_tanimoto |   db_search_sss_50cands |   db_search_sss_1cands |   db_search_sss_10cands |   db_search_hss_50cands |   db_search_hss_1cands |   db_search_hss_10cands |
+|:-----------------------------------------|----------------------------:|------------------------:|-----------------------:|------------------------:|------------------------:|-----------------------:|------------------------:|
+| youthful-wave-590_exp5_9M_448+296_beam10 |                   -0.526509 |              -0.0206715 |             -0.0206715 |              -0.0206715 |               0.0907951 |              0.0907951 |               0.0907951 |
+| youthful-wave-590_exp5_9M_448+296_beam50 |                   -0.528083 |              -0.0222453 |             -0.0222453 |              -0.0222453 |               0.0892212 |              0.0892212 |               0.0892212 |
+| youthful-wave-590_exp5_9M_448+296_greedy |                   -0.555576 |              -0.0497386 |             -0.0497386 |              -0.0497386 |               0.0617279 |              0.0617279 |               0.0617279 |
+
+
+Mean difference in similarity to database search predictions (FPSD similsort):
+|                                          |   db_search_morgan_tanimoto |   db_search_sss_50cands |   db_search_sss_1cands |   db_search_sss_10cands |   db_search_hss_50cands |   db_search_hss_1cands |   db_search_hss_10cands |
+|:-----------------------------------------|----------------------------:|------------------------:|-----------------------:|------------------------:|------------------------:|-----------------------:|------------------------:|
+| youthful-wave-590_exp5_9M_448+296_beam50 |                   -0.311647 |               -0.10686  |              0.19419   |              0.00422614 |              -0.0857619 |              0.305657  |               0.0205469 |
+| youthful-wave-590_exp5_9M_448+296_beam10 |                   -0.387564 |               -0.182777 |              0.118274  |             -0.0716903  |              -0.161678  |              0.229741  |              -0.0553696 |
+| youthful-wave-590_exp5_9M_448+296_greedy |                   -0.555576 |               -0.350789 |             -0.0497386 |             -0.239703   |              -0.329691  |              0.0617279 |              -0.223382  |
+
+
+Performance of database searches (spectral searches' rate of finding best candidates according to morgan tanimoto structural search):
+|                       |   db_search_morgan_tanimoto |
+|:----------------------|----------------------------:|
+| db_search_sss_50cands |                    0.666667 |
+| db_search_hss_50cands |                    0.546296 |
+| db_search_sss_10cands |                    0.518519 |
+| db_search_hss_10cands |                    0.407407 |
+| db_search_sss_1cands  |                    0.342593 |
+| db_search_hss_1cands  |                    0.166667 |

@@ -1,0 +1,109 @@
+command: predict.py --checkpoint checkpoints/finetune_clean/floral-rain-591_exp5_9M_224+148/checkpoint-147476
+  --output-folder predictions --config-file configs/predict_nist_valid_beam10.yaml
+cuda_visible_devices: GPU-9c7e3cb8-d7e4-720e-d6c3-bd8b1d5256d9
+dataloader:
+  batch_size: 1
+  num_workers: 1
+dataset:
+  data_path: data/nist/valid.jsonl
+  data_split: valid
+  dataset_name: NIST
+general:
+  additional_naming_info: beam10
+  device: cuda
+generation_args:
+  do_sample: false
+  length_penalty: 1.0
+  max_length: 200
+  num_beams: 10
+  num_return_sequences: 10
+  penalty_alpha: null
+  temperature: null
+  top_k: null
+  top_p: null
+preprocess_args:
+  inference_mode: true
+  log_base: 1.28
+  log_shift: 29
+  max_cumsum: null
+  max_mol_repr_len: 100
+  max_mz: 500
+  max_num_peaks: 300
+  mol_repr: smiles
+  restrict_intensities: false
+  source_token: <nist>
+start_loading_time: 07/01/2025 21:45:52
+tokenizer_path: tokenizer/tokenizer_mf10M.model
+finished_time_utc: 08/01/2025 08:10:32
+generation_time: '10:24:37'
+wall_time_utc: '10:24:40'
+evaluation_0:
+    average_num_of_predictions: '8.246335663839302'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:01:00
+    formula_stats:
+        num_all_correct_formulas: 71462 / 232357
+        num_at_least_one_correct_formula: '23769'
+        num_correct_formulas_at_best_prob: '18482'
+        num_correct_formulas_at_best_simil: '21080'
+        rate_of_all_correct_formulas: '0.3075526022456823'
+        rate_of_at_least_one_correct_formula: '0.8435603506405934'
+        rate_of_correct_formulas_at_best_prob: '0.6559250452496718'
+        rate_of_correct_formulas_at_best_simil: '0.7481279057387231'
+    hit_at_k_prob: '[(1, 0.40362707172516593), (2, 0.49909500656563865), (3, 0.5478581822053448),
+        (4, 0.5768889519821131), (5, 0.5976505660645207), (6, 0.6115271320580615),
+        (7, 0.6217482343755545), (8, 0.6277815239379636), (9, 0.6306916989033609),
+        (10, 0.6316144373070235)]'
+    labels_path: data/nist/valid.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '5.959827818235093'
+        mean_absolute_mw_difference_best_simil: '6.4432020405852715'
+        mean_relative_mw_difference_best_prob: 2.13%
+        mean_relative_mw_difference_best_simil: 2.27%
+        rate_of_exact_mw_prob: '0.6455974731163715'
+        rate_of_exact_mw_simil: '0.6751605919721759'
+        rate_of_exact_nominal_mw_simil: '0.7003584483798843'
+        rate_of_mw_difference_less_than_1_best_prob: '0.7147318735138588'
+        rate_of_mw_difference_less_than_1_best_simil: '0.7188132164531356'
+    num_datapoints_tested: '28177'
+    num_empty_preds: '2'
+    num_predictions_at_k_counter: '[28177, 27976, 27657, 27060, 26164, 24872, 22955,
+        20303, 16504, 10691]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '10957'
+        num_precise_preds_similsort: '17692'
+        rate_of_precise_preds_probsort: '0.38886325726656495'
+        rate_of_precise_preds_similsort: '0.6278879937537708'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 14919), (7, 26), (2, 1344), (3, 1045),
+            (5, 108), (4, 291), (9, 2), (6, 48), (10, 2), (8, 12)])
+        num_1_hits_as_first_probsort: '11373'
+        num_1_hits_as_first_similsort: '17797'
+        num_fp_simil_fail_prob: '416'
+        num_fp_simil_fail_simil: '105'
+        rate_of_1_hits_as_first_probsort: '0.40362707172516593'
+        rate_of_1_hits_as_first_similsort: '0.6316144373070235'
+    start_time_utc: 08/01/2025 09:39:33
+    threshold_stats:
+        num_better_than_threshold_probsort: '11686'
+        num_better_than_threshold_similsort: '17981'
+        rate_of_better_than_threshold_probsort: '0.41473542250771905'
+        rate_of_better_than_threshold_similsort: '0.6381445860098662'
+        threshold: '0.85'
+    topk_probsort: '[0.6486384173921607, 0.53032664333821, 0.48640474378663784, 0.45701177641474505,
+        0.43615349711566, 0.4158761415397643, 0.4005809393981122, 0.381892180641204,
+        0.35680047748977367, 0.3328787280218074]'
+    topk_similsort: '[0.7952438954721773, 0.5927331430899682, 0.515516357036171, 0.4602199248268554,
+        0.41624895555311453, 0.3769162308201862, 0.34113548937105503, 0.3075780129804225,
+        0.27260122223290345, 0.23785015337184515]'

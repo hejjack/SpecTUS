@@ -1,0 +1,139 @@
+command: predict.py --checkpoint checkpoints/finetune_clean/youthful-wave-590_exp5_9M_448+296/checkpoint-294952
+  --output-folder predictions --config-file configs/predict_swgdrug_beam50.yaml
+cuda_visible_devices: GPU-9c7e3cb8-d7e4-720e-d6c3-bd8b1d5256d9
+dataloader:
+  batch_size: 1
+  num_workers: 1
+dataset:
+  data_path: data/extra_libraries/SWGDRUG_3/SWGDRUG_3_noD.jsonl
+  data_split: all
+  dataset_name: SWGDRUG
+general:
+  additional_naming_info: beam50
+  device: cuda
+generation_args:
+  do_sample: false
+  length_penalty: 1.0
+  max_length: 200
+  num_beams: 50
+  num_return_sequences: 50
+  penalty_alpha: null
+  temperature: null
+  top_k: null
+  top_p: null
+preprocess_args:
+  inference_mode: true
+  log_base: 1.28
+  log_shift: 29
+  max_cumsum: null
+  max_mol_repr_len: 100
+  max_mz: 500
+  max_num_peaks: 300
+  mol_repr: smiles
+  restrict_intensities: false
+  source_token: <nist>
+start_loading_time: 05/01/2025 21:45:07
+tokenizer_path: tokenizer/tokenizer_mf10M.model
+finished_time_utc: 06/01/2025 02:00:18
+generation_time: 04:15:07
+wall_time_utc: 04:15:10
+evaluation_0:
+    average_num_of_predictions: '35.15609756097561'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:00:19
+    formula_stats:
+        num_all_correct_formulas: 7037 / 57656
+        num_at_least_one_correct_formula: '1453'
+        num_correct_formulas_at_best_prob: '933'
+        num_correct_formulas_at_best_simil: '1217'
+        rate_of_all_correct_formulas: '0.12205147772998473'
+        rate_of_at_least_one_correct_formula: '0.8859756097560976'
+        rate_of_correct_formulas_at_best_prob: '0.5689024390243902'
+        rate_of_correct_formulas_at_best_simil: '0.7420731707317073'
+    hit_at_k_prob: '[(1, 0.30365853658536585), (2, 0.40182926829268295), (3, 0.4548780487804878),
+        (4, 0.48902439024390243), (5, 0.5091463414634146), (6, 0.525), (7, 0.5396341463414634),
+        (8, 0.5573170731707318), (9, 0.5646341463414634), (10, 0.5756097560975609),
+        (11, 0.5841463414634146), (12, 0.5902439024390244), (13, 0.5951219512195122),
+        (14, 0.6030487804878049), (15, 0.6085365853658536), (16, 0.6146341463414634),
+        (17, 0.6201219512195122), (18, 0.623780487804878), (19, 0.625609756097561),
+        (20, 0.6292682926829268), (21, 0.6329268292682927), (22, 0.6341463414634146),
+        (24, 0.6359756097560976), (25, 0.6384146341463415), (26, 0.6396341463414634),
+        (27, 0.6414634146341464), (29, 0.6426829268292683), (31, 0.6439024390243903),
+        (32, 0.6445121951219512), (38, 0.6451219512195122), (39, 0.6457317073170732),
+        (40, 0.6463414634146342)]'
+    labels_path: data/extra_libraries/SWGDRUG_3/SWGDRUG_3_noD.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '11.01175248173908'
+        mean_absolute_mw_difference_best_simil: '8.903505438504933'
+        mean_relative_mw_difference_best_prob: 3.48%
+        mean_relative_mw_difference_best_simil: 2.84%
+        rate_of_exact_mw_prob: '0.5548780487804879'
+        rate_of_exact_mw_simil: '0.7176829268292683'
+        rate_of_exact_nominal_mw_simil: '0.7274390243902439'
+        rate_of_mw_difference_less_than_1_best_prob: '0.6067073170731707'
+        rate_of_mw_difference_less_than_1_best_simil: '0.7426829268292683'
+    num_datapoints_tested: '1640'
+    num_empty_preds: '0'
+    num_predictions_at_k_counter: '[1640, 1629, 1613, 1605, 1593, 1583, 1577, 1574,
+        1570, 1560, 1549, 1546, 1538, 1528, 1519, 1506, 1493, 1475, 1450, 1418, 1400,
+        1374, 1356, 1334, 1313, 1298, 1268, 1239, 1198, 1158, 1125, 1082, 1044, 1009,
+        980, 931, 885, 841, 797, 757, 713, 669, 599, 554, 483, 420, 347, 261, 166,
+        89]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '497'
+        num_precise_preds_similsort: '1059'
+        rate_of_precise_preds_probsort: '0.30304878048780487'
+        rate_of_precise_preds_similsort: '0.6457317073170732'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 1018), (5, 2), (2, 34), (3, 5), (4,
+            1)])
+        num_1_hits_as_first_probsort: '498'
+        num_1_hits_as_first_similsort: '1060'
+        num_fp_simil_fail_prob: '1'
+        num_fp_simil_fail_simil: '1'
+        rate_of_1_hits_as_first_probsort: '0.30365853658536585'
+        rate_of_1_hits_as_first_similsort: '0.6463414634146342'
+    start_time_utc: 07/01/2025 13:50:00
+    threshold_stats:
+        num_better_than_threshold_probsort: '531'
+        num_better_than_threshold_similsort: '1086'
+        rate_of_better_than_threshold_probsort: '0.32378048780487806'
+        rate_of_better_than_threshold_similsort: '0.6621951219512195'
+        threshold: '0.85'
+    topk_probsort: '[0.6691631195275414, 0.5594606638193483, 0.5158285085550817, 0.4896609751021862,
+        0.47684407337078183, 0.46716329675266494, 0.4592068912972125, 0.4576120765273741,
+        0.44958556223575863, 0.4415788357740821, 0.4416009825925414, 0.4416291809496301,
+        0.43306364305005896, 0.4299276853001179, 0.4286995653357343, 0.428553048326322,
+        0.41971032422706095, 0.4167624057440499, 0.4135192324965679, 0.41737434230307363,
+        0.41044007564397217, 0.40448051210240005, 0.40233871392474285, 0.4045071220011535,
+        0.39975417776694566, 0.3910974047919853, 0.3938595569449974, 0.3848755179447485,
+        0.3812689769894593, 0.38088795033335937, 0.3815135529274061, 0.3733778778968222,
+        0.37127380210886896, 0.37130315125955, 0.36755767852426413, 0.36084772095576784,
+        0.36460642694977186, 0.35284635680751975, 0.3550889559545735, 0.35004233881427915,
+        0.3435208702555894, 0.3455037458791948, 0.3425238226875729, 0.3277257149275472,
+        0.32682058890977733, 0.31712764316258996, 0.32491892328009664, 0.31879997231353163,
+        0.3140925511141183, 0.31185995473217276]'
+    topk_similsort: '[0.8611641086676906, 0.6936808566279167, 0.6297231706165183,
+        0.592050819048835, 0.5658415702590671, 0.545588958477516, 0.5267975999949192,
+        0.5110267017407439, 0.4960804899018715, 0.48435234168680374, 0.4742146027660933,
+        0.4619269063191518, 0.4518309197671503, 0.44223990847019395, 0.43249179358628603,
+        0.4244959047100421, 0.4153728298977807, 0.4077218336055618, 0.39988902970033485,
+        0.39426695503811154, 0.3865474799351956, 0.380282586673033, 0.37311592731018756,
+        0.3663700710395681, 0.3600375466162705, 0.35263206482395015, 0.3461641760778383,
+        0.3390972848872657, 0.33245238121275844, 0.32625528397301545, 0.32107175359218837,
+        0.31541027590956877, 0.31112296284608826, 0.30502582161467157, 0.2971297858215592,
+        0.29239671683753093, 0.28682556266236997, 0.28002447194728947, 0.27416716610758857,
+        0.269166140614446, 0.2629957743986776, 0.25589132773280276, 0.24892119302903298,
+        0.24196411656109434, 0.23710914907899674, 0.23097668664247917, 0.22640853188500284,
+        0.21673631380273645, 0.21496728581546976, 0.20082966801983668]'

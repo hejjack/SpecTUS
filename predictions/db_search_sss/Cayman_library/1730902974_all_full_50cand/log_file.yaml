@@ -1,0 +1,109 @@
+command: spectus/predict_db_search.py --output-folder predictions --config-file configs/predict_db_search_sss_extra_libs.yaml
+  --num-workers 10
+dataset:
+  data_split: all
+  dataset_name: Cayman_library
+  query_data: data/extra_libraries/Cayman_library/Cayman_library_noD.jsonl
+  reference_data: data/nist/train.jsonl
+filtering_args:
+  max_mol_repr_len: 100
+  max_mz: 500
+  max_num_peaks: 300
+  mol_repr: smiles
+general:
+  additional_naming_info: ''
+  num_candidates: 50
+  ranking_function: sss
+start_loading_time: 06/11/2024 15:22:54
+tokenizer_path: tokenizer/tokenizer_mf10M.model
+finished_time_utc: 06/11/2024 16:36:19
+generation_time: 01:13:09
+wall_time_utc: 01:13:25
+evaluation_0:
+    average_num_of_predictions: '42.985074626865675'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:00:12
+    formula_stats:
+        num_all_correct_formulas: 230 / 20160
+        num_at_least_one_correct_formula: '121'
+        num_correct_formulas_at_best_prob: '75'
+        num_correct_formulas_at_best_simil: '75'
+        rate_of_all_correct_formulas: '0.011408730158730158'
+        rate_of_at_least_one_correct_formula: '0.2579957356076759'
+        rate_of_correct_formulas_at_best_prob: '0.15991471215351813'
+        rate_of_correct_formulas_at_best_simil: '0.15991471215351813'
+    hit_at_k_prob: '[(5, 0.0021321961620469083), (11, 0.0042643923240938165)]'
+    labels_path: data/extra_libraries/Cayman_library/Cayman_library_noD.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '50.73774898551813'
+        mean_absolute_mw_difference_best_simil: '45.33060259327932'
+        mean_relative_mw_difference_best_prob: 16.26%
+        mean_relative_mw_difference_best_simil: 14.15%
+        rate_of_exact_mw_prob: '0.15565031982942432'
+        rate_of_exact_mw_simil: '0.14498933901918976'
+        rate_of_exact_nominal_mw_simil: '0.17057569296375266'
+        rate_of_mw_difference_less_than_1_best_prob: '0.2345415778251599'
+        rate_of_mw_difference_less_than_1_best_simil: '0.1812366737739872'
+    num_datapoints_tested: '469'
+    num_empty_preds: '0'
+    num_predictions_at_k_counter: '[469, 469, 469, 469, 469, 469, 469, 469, 469, 469,
+        469, 469, 469, 469, 469, 469, 469, 469, 469, 469, 469, 469, 469, 469, 469,
+        466, 466, 462, 458, 457, 452, 446, 438, 433, 426, 416, 410, 394, 380, 352,
+        338, 317, 298, 267, 237, 185, 155, 96, 56, 30]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '0'
+        num_precise_preds_similsort: '0'
+        rate_of_precise_preds_probsort: '0.0'
+        rate_of_precise_preds_similsort: '0.0'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 2)])
+        num_1_hits_as_first_probsort: '0'
+        num_1_hits_as_first_similsort: '2'
+        num_fp_simil_fail_prob: '0'
+        num_fp_simil_fail_simil: '2'
+        rate_of_1_hits_as_first_probsort: '0.0'
+        rate_of_1_hits_as_first_similsort: '0.0042643923240938165'
+    start_time_utc: 06/11/2024 17:51:46
+    threshold_stats:
+        num_better_than_threshold_probsort: '3'
+        num_better_than_threshold_similsort: '8'
+        rate_of_better_than_threshold_probsort: '0.006396588486140725'
+        rate_of_better_than_threshold_similsort: '0.017057569296375266'
+        threshold: '0.85'
+    topk_probsort: '[0.3383776894210436, 0.2593793145827281, 0.24258786921699962,
+        0.2126300885379688, 0.20554815653515793, 0.18268321509245836, 0.1762244705021714,
+        0.17012774831320385, 0.16605113576957248, 0.16853065616419843, 0.1722028386217842,
+        0.1616741508078569, 0.1573903420177291, 0.15665135963033647, 0.1530267838910333,
+        0.14914928019071846, 0.15204904382202866, 0.14536917397722843, 0.14282031194564024,
+        0.14511389330676722, 0.1458985872924928, 0.14412927412229892, 0.14304894071595725,
+        0.14109993560864564, 0.14566689146002026, 0.14453387149637786, 0.13713394621059763,
+        0.14423342086067234, 0.14194001900257763, 0.14090176810246494, 0.13873674923393836,
+        0.1373901044763558, 0.13708734814376017, 0.13147213461918916, 0.13821643126828473,
+        0.13085936192078257, 0.13380101348210632, 0.12871519747612672, 0.135551775696964,
+        0.13230095131667663, 0.1288249379073933, 0.13544819962215715, 0.13270535569227793,
+        0.13315070396360115, 0.12916756395947585, 0.13152113926762465, 0.13027971526480545,
+        0.13573027849705072, 0.12658847612159674, 0.11079934763499522]'
+    topk_similsort: '[0.4720381114432694, 0.36143327613988185, 0.31754356676024703,
+        0.29131023307913045, 0.2663857706082783, 0.24311481086164186, 0.22411212596961963,
+        0.21310822046418545, 0.20462622885302184, 0.19729566142008184, 0.19147268135907086,
+        0.1847676291076178, 0.17980835073670642, 0.17496089627812664, 0.16749122360019258,
+        0.16227565843171105, 0.15795091909768963, 0.15392692383022866, 0.14950583604241655,
+        0.1454097620933574, 0.14065725304253254, 0.13558199217154784, 0.13172204924867428,
+        0.1286573022359473, 0.12526368957264972, 0.12201400584545088, 0.11795233073264533,
+        0.11533582104546423, 0.11225585376620018, 0.10873558972437915, 0.10541651278698123,
+        0.10279545938063353, 0.10035602896379411, 0.09729555293670128, 0.09474406478094094,
+        0.0917329788825994, 0.08861244713830786, 0.08660138549617119, 0.08439246002274388,
+        0.08292752971631871, 0.08017203115825088, 0.07766253832303724, 0.07426599989448415,
+        0.07321810578688433, 0.06925231388554252, 0.06504939109372657, 0.059984972592449476,
+        0.05529603913272167, 0.05365472436908009, 0.047739969098845245]'

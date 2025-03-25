@@ -1,0 +1,101 @@
+command: spectus/predict.py --checkpoint checkpoints/finetune_clean/balmy-violet-577_exp5_224_148/checkpoint-147476
+  --output-folder predictions --config-file configs/predict_mona_greedy.yaml
+cuda_visible_devices: '2'
+dataloader:
+  batch_size: 1
+  num_workers: 1
+dataset:
+  data_path: data/extra_libraries/MONA_GCMS/MONA_GCMS_overlaps_included.jsonl
+  data_split: all
+  dataset_name: MONA_GCMS_overlaps_only
+  query_data: data/extra_libraries/MONA_GCMS/MONA_GCMS_overlaps_only.jsonl
+finished_time_utc: 06/11/2024 19:06:59
+general:
+  additional_naming_info: greedy
+  device: cuda
+generation_args:
+  do_sample: false
+  length_penalty: 1.0
+  max_length: 200
+  num_beams: 1
+  num_return_sequences: 1
+  penalty_alpha: null
+  temperature: null
+  top_k: null
+  top_p: null
+generation_time: 02:33:59
+preprocess_args:
+  inference_mode: true
+  log_base: 1.28
+  log_shift: 29
+  max_cumsum: null
+  max_mol_repr_len: 100
+  max_mz: 500
+  max_num_peaks: 300
+  mol_repr: smiles
+  restrict_intensities: false
+  source_token: <nist>
+start_loading_time: 06/11/2024 16:32:43
+tokenizer_path: tokenizer/tokenizer_mf10M.model
+wall_time_utc: 02:34:15
+evaluation_0:
+    average_num_of_predictions: '0.9912995767361655'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:00:10
+    formula_stats:
+        num_all_correct_formulas: 8232 / 12647
+        num_at_least_one_correct_formula: '8232'
+        num_correct_formulas_at_best_prob: '8232'
+        num_correct_formulas_at_best_simil: '8232'
+        rate_of_all_correct_formulas: '0.6509053530481537'
+        rate_of_at_least_one_correct_formula: '0.6452422009719392'
+        rate_of_correct_formulas_at_best_prob: '0.6452422009719392'
+        rate_of_correct_formulas_at_best_simil: '0.6452422009719392'
+    hit_at_k_prob: '[(1, 0.59468568741182)]'
+    labels_path: data/extra_libraries/MONA_GCMS/MONA_GCMS_overlaps_only.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '40.98711219965414'
+        mean_absolute_mw_difference_best_simil: '40.98711219965414'
+        mean_relative_mw_difference_best_prob: 27.79%
+        mean_relative_mw_difference_best_simil: 27.79%
+        rate_of_exact_mw_prob: '0.6444583790562785'
+        rate_of_exact_mw_simil: '0.6444583790562785'
+        rate_of_exact_nominal_mw_simil: '0.6610754036682865'
+        rate_of_mw_difference_less_than_1_best_prob: '0.6702461200815175'
+        rate_of_mw_difference_less_than_1_best_simil: '0.6702461200815175'
+    num_datapoints_tested: '12758'
+    num_empty_preds: '111'
+    num_predictions_at_k_counter: '[12758]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '7543'
+        num_precise_preds_similsort: '7543'
+        rate_of_precise_preds_probsort: '0.5912368709829127'
+        rate_of_precise_preds_similsort: '0.5912368709829127'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 7587)])
+        num_1_hits_as_first_probsort: '7587'
+        num_1_hits_as_first_similsort: '7587'
+        num_fp_simil_fail_prob: '44'
+        num_fp_simil_fail_simil: '44'
+        rate_of_1_hits_as_first_probsort: '0.59468568741182'
+        rate_of_1_hits_as_first_similsort: '0.59468568741182'
+    start_time_utc: 08/11/2024 10:03:57
+    threshold_stats:
+        num_better_than_threshold_probsort: '7608'
+        num_better_than_threshold_similsort: '7608'
+        rate_of_better_than_threshold_probsort: '0.5963317134347076'
+        rate_of_better_than_threshold_similsort: '0.5963317134347076'
+        threshold: '0.85'
+    topk_probsort: '[0.6823428801938466]'
+    topk_similsort: '[0.6823428801938466]'

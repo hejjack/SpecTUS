@@ -1,7 +1,0 @@
-executable: chmod +x ZINC-downloader-2D-clean-instock-8.1M.curl
-download: ./ZINC-downloader-2D-clean-instock-8.1M.curl
-mv to one dir: find . -name "*.smi" -exec mv {} ./all \;
-mv to one file: tail -n +2 all/*.smi > ./8M.smi && mv 8M_clean.smi 8M.smi
-remove file beginning tags: grep -v "<" 8M.smi > 8M_clean.smi
-add the first line with legend: sed -i '1 i\smiles zinc_id' 8M.smi
-split into chunks: split_sdf_script.py

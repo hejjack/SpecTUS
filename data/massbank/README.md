@@ -1,0 +1,1 @@
+Origin and preprocessing of the MassBank dataset for testing SpecTUS is described in the [massbank_datata_preprocessing.ipynb](../../notebooks/massbank_data_preprocessing.ipynb) notebook.
