@@ -1,1 +1,0 @@
-../../bart_spektro/configuration_bart_spektro.py

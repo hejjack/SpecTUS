@@ -1,6 +1,0 @@
-{
-  "clean_up_tokenization_spaces": true,
-  "max_len": 200,
-  "model_max_length": 200,
-  "tokenizer_class": "SelfiesTokenizer"
-}

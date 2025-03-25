@@ -1,0 +1,10 @@
+name: MSMetaEnhancer2
+channels:
+  - defaults
+dependencies:
+  - python=3.9
+  - ipykernel
+  - conda=24.7.1
+  - msmetaenhancer
+  - libstdcxx-ng
+prefix: /home/xhajek9/miniconda3/envs/MSMetaEnhancer2

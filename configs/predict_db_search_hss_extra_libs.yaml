@@ -1,0 +1,18 @@
+general:
+  additional_naming_info: "" # optional, st
+  ranking_function: "hss"  # sss/hss/morgan_tanimoto
+  num_candidates: 10        # num candidates to retrieve from db search 1/10/50
+
+dataset:
+  reference_data: "data/nist/train.jsonl" # REQUIRED!
+  query_data: "data/extra_libraries/SWGDRUG_3/SWGDRUG_3_noD.jsonl" # REQUIRED!
+  dataset_name: SWGDRUG # NEIMSgen/NIST/...    REQUIRED! (for naming)
+  data_split: all # train/test/valid/... REQUIRED! (for naming)
+
+tokenizer_path: "tokenizer/tokenizer_mf10M.model" # REQUIRED!
+
+filtering_args:  # if you don't specify these, default ones are used
+  max_num_peaks: 300
+  max_mz: 500
+  max_mol_repr_len: 100
+  mol_repr: "smiles"

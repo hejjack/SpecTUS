@@ -1,43 +1,51 @@
-# SpecTRUM: Spectral Translator for the Reconstruction of Unknown Molecules
+# SpecTUS: Spectral Translator for Unknown Structures annotation from EI-MS spectra
 
-This project trains a Transformer model to tackle the task of de novo GC-MS spectra analysis.
+**SpecTUS** is a transformer-based tool for reconstructing Gas Chromatography-Electron Ionization (GC-EI) mass spectra. The model reconstructs spectra in a de novo manner — directly translating the spectra into 2D molecular structures represented as SMILES strings. The model is pretrained on a large dataset of synthetic spectra and fine-tuned on a smaller dataset of experimental NIST20 spectra. The NIST20 is a proprietary dataset; therefore, we cannot share the final model, but the code for training the model is carefully documented and available for public use. If you own a license for the NIST20 dataset, you can train the model yourself or contact us to get it.
 
-## Environment setting
-The conda environment files are in the `env_specification` folder. `BARTtrainH100` is the main environment used for data preprocessing, training and evaluation. The `NEIMSpy3_environment` is specifically used only for NEIMS spectra generation. This was necessary because of the package incompatibility.
+We make freely available the 17.2M synthetic spectra used for pretraining the model and the checkpoint of the pretrained model that
+can be further finetuned on your own dataset [here](https://huggingface.co/MS-ML).
 
+## 🎮 Demo
+You can run a demo inference of the final model hosted on our server via Jupyter Notebook in [this](https://github.com/ljocha/spectus-demo) repository.
 
-## Data preprocessing
-Because of the size constraints and licensing we cannot provide the datasets we used for training. However, we provide the scripts used to obtain filter and preprocess the ZINC smiles dataset and all the preprocessing scripts for the NIST GC-MS dataset.
+## 📁 Repository Structure
+```
+SpecTUS/
+├── config_runners/          # Shell scripts for model training, evaluation, and prediction, model comparison
+├── configs/                 # YAML configuration files for model training, evaluation, prediction, model comparison
+├── data/                    # Includes used NIST splits, example data, and synthetic data
+├── forward/                 # Scripts for spectra generators (NEIMS, RASSP) training
+├── notebooks/               # Jupyter notebooks for data preprocessing, pretraining, finetuning, hyperparameter search, model evaluation, and comparison of the models
+├── predictions/             # Test predictions of all models (hyperparameter search) and database search methods (HSS, SSS, BDC) mentioned in the paper
+```
 
-For every dataset in the `data/datasets` folder, there is a README file that provides closer information about the particular dataset and explains how it was obtained.
+## 🛠 Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/SpecTUS.git
+   cd SpecTUS
+   ```
+2. Set up the Python environment:
+   ```bash
+   conda env create -f trainSpectus_build.yaml
+   ```
 
+## 🚦 Usage
+Data preprocessing, pretraining, finetuning, hyperparameter search, model evaluation, and comparison of the models are all described step by step in the [notebooks/](notebooks/).
 
-## Pretraining & Finetuning
-Pretraining and finetuning can be conducted using the `train_bart.py` script. The script needs a couple of arguments to run, most importantly the `config_file`, which is a YAML file that contains all the necessary hyperparameters for the training.
-All the run scripts we used for our experiments are in the run_scripts folder and don't need any additional parameters. The scripts are named `run_pretrain*` and `run_finetune*`. Their corresponding config files are in the `configs` folder, again named `train_config_pretrain*` and `train_config_finetune*`.
+An example notebook for [inference](notebooks/5_inference_on_open_data.ipynb) is available to help you get started reconstructing spectra from an `msp` file once you have your model trained.
 
-
-## Prediction & Evaluation
-Prediciton and evaluation are two separate steps. The prediction process on NIST valid/test splits takes depending on the used hardware from 4 hours to infinity. Once you have the predictions, you can run multiple evaluation runs each taking around a minute.
-
-The prediction script, `predict.py` has its runner in the `run_scripts` folder (`run_predict.sh`) and corresponding config files in the `configs` folder (`predict_config*`). The evaluation script, `evaluate_predicitons.py` has also its runner in the `run_scripts` folder (`run_eval.sh`) and corresponding config files in the `configs` folder (`eval_config*`).
-
-
-
-------------------------- Other folders ------------------------
-
-## predicitons
-The predictions computed by our models are in the `predictions` folder. Along with the predictions each folder contains a `log_file.yaml` with all the evaluation results (sometimes from multiple evaluation runs with different setting) and figures generated by the latest evaluaiton.
-
-## tokenizer
-The `tokenizer` folder contains all the different tokenizers used during the experiments and the final training. It also contains the traininig data for the BBPE tokenizers.
-
-## bart_spektro
-This folder contains the custom implementation of the BART model used for the experiments. The implementation is based on the `transformers` library and is a modification of the `BartForConditionalGeneration` class.
-
-## notebooks
-This folder contains a lot of things. Some of them are useful and nice, some of them you better not look at. I leave it in the repository as a memento of the hard work and the struggle we went through.
-
-
-That's it.:)
+## 📄 Citation
+If you use **SpecTUS** in your research, please cite (OLD CITATION):
+```
+@misc{hájek2023denovoidentificationsmallmolecules,
+      title={De-novo Identification of Small Molecules from Their GC-EI-MS Spectra},
+      author={Adam Hájek and Michal Starý and Filip Jozefov and Helge Hecht and Elliott Price and Aleš Křenek},
+      year={2023},
+      eprint={2304.01634},
+      archivePrefix={arXiv},
+      primaryClass={physics.data-an},
+      url={https://arxiv.org/abs/2304.01634},
+}
+```
 

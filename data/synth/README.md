@@ -1,0 +1,1 @@
+Creation and preprocessing of the synthetic datasets for pretraining  SpecTUS is described in the [2_data_preprocessing.ipynb](../../notebooks/2_data_preprocessing.ipynb) notebook.

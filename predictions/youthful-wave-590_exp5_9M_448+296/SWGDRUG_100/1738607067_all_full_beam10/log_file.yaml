@@ -1,0 +1,103 @@
+command: spectus/predict.py --checkpoint checkpoints/finetune_clean/youthful-wave-590_exp5_9M_448+296/checkpoint-294952
+  --output-folder predictions --config-file configs/predict_example.yaml
+cuda_visible_devices: '0'
+dataloader:
+  batch_size: 1
+  num_workers: 1
+dataset:
+  data_path: data/example/SWGDRUG_100.jsonl
+  data_split: all
+  dataset_name: SWGDRUG_100
+general:
+  additional_naming_info: beam10
+  device: cuda
+generation_args:
+  do_sample: false
+  length_penalty: 1.0
+  max_length: 200
+  num_beams: 10
+  num_return_sequences: 10
+  penalty_alpha: null
+  temperature: null
+  top_k: null
+  top_p: null
+preprocess_args:
+  inference_mode: true
+  log_base: 1.28
+  log_shift: 29
+  max_cumsum: null
+  max_mol_repr_len: 100
+  max_mz: 500
+  max_num_peaks: 300
+  mol_repr: smiles
+  restrict_intensities: false
+  source_token: <nist>
+start_loading_time: 03/02/2025 19:24:27
+tokenizer_path: tokenizer/tokenizer_mf10M.model
+finished_time_utc: 03/02/2025 19:25:46
+generation_time: 00:01:15
+wall_time_utc: 00:01:19
+evaluation_0:
+    average_num_of_predictions: '6.84'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:00:02
+    formula_stats:
+        num_all_correct_formulas: 198 / 684
+        num_at_least_one_correct_formula: '94'
+        num_correct_formulas_at_best_prob: '84'
+        num_correct_formulas_at_best_simil: '94'
+        rate_of_all_correct_formulas: '0.2894736842105263'
+        rate_of_at_least_one_correct_formula: '0.94'
+        rate_of_correct_formulas_at_best_prob: '0.84'
+        rate_of_correct_formulas_at_best_simil: '0.94'
+    hit_at_k_prob: '[(1, 0.75), (2, 0.87), (3, 0.89), (5, 0.91), (7, 0.92)]'
+    labels_path: data/example/SWGDRUG_100.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '8.2726665046609'
+        mean_absolute_mw_difference_best_simil: '6.232188316179999'
+        mean_relative_mw_difference_best_prob: 3.47%
+        mean_relative_mw_difference_best_simil: 2.64%
+        rate_of_exact_mw_prob: '0.84'
+        rate_of_exact_mw_simil: '0.94'
+        rate_of_mw_difference_less_than_1_best_prob: '0.86'
+        rate_of_mw_difference_less_than_1_best_simil: '0.94'
+    num_datapoints_tested: '100'
+    num_empty_preds: '0'
+    num_predictions_at_k_counter: '[100, 97, 90, 86, 82, 72, 57, 44, 32, 24]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '75'
+        num_precise_preds_similsort: '91'
+        rate_of_precise_preds_probsort: '0.75'
+        rate_of_precise_preds_similsort: '0.91'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 90), (2, 2)])
+        num_1_hits_as_first_probsort: '75'
+        num_1_hits_as_first_similsort: '92'
+        num_fp_simil_fail_prob: '0'
+        num_fp_simil_fail_simil: '1'
+        rate_of_1_hits_as_first_probsort: '0.75'
+        rate_of_1_hits_as_first_similsort: '0.92'
+    start_time_utc: 03/02/2025 19:30:41
+    threshold_stats:
+        num_better_than_threshold_probsort: '76'
+        num_better_than_threshold_similsort: '92'
+        rate_of_better_than_threshold_probsort: '0.76'
+        rate_of_better_than_threshold_similsort: '0.92'
+        threshold: '0.85'
+    topk_probsort: '[0.8849257988613771, 0.6244745022324347, 0.5314485288416535, 0.540748586013972,
+        0.528106862529653, 0.48825239970834794, 0.554003622605302, 0.40759499061355015,
+        0.41885064874668804, 0.3938328046508422]'
+    topk_similsort: '[0.9560116775697307, 0.7302823419827889, 0.6202930237086554,
+        0.5507495414058108, 0.4768179331706582, 0.4243934806331464, 0.3871219367812167,
+        0.36426940748377684, 0.32697379225679046, 0.2660886592284961]'

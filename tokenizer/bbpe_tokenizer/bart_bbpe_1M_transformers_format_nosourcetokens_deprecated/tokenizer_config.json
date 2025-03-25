@@ -1,6 +1,0 @@
-{
-  "model_max_length": 1000000000000000019884624838656,
-  "name_or_path": "../tokenizer/bbpe_tokenizer/bart_bbpe_1M_transformers_format",
-  "special_tokens_map_file": "../tokenizer/bbpe_tokenizer/bart_bbpe_1M_transformers_format/special_tokens_map.json",
-  "tokenizer_class": "PreTrainedTokenizerFast"
-}

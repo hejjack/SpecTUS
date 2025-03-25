@@ -1,0 +1,135 @@
+command: spectus/predict.py --checkpoint checkpoints/finetune_clean/balmy-violet-577_exp5_224_148/checkpoint-147476
+  --output-folder predictions --config-file configs/predict_cayman_beam50.yaml
+cuda_visible_devices: '2'
+dataloader:
+  batch_size: 1
+  num_workers: 1
+dataset:
+  data_path: data/extra_libraries/Cayman_library/Cayman_library_noD.jsonl
+  data_split: all
+  dataset_name: Cayman_library
+general:
+  additional_naming_info: beam50
+  device: cuda
+generation_args:
+  do_sample: false
+  length_penalty: 1.0
+  max_length: 200
+  num_beams: 50
+  num_return_sequences: 50
+  penalty_alpha: null
+  temperature: null
+  top_k: null
+  top_p: null
+preprocess_args:
+  inference_mode: true
+  log_base: 1.28
+  log_shift: 29
+  max_cumsum: null
+  max_mol_repr_len: 100
+  max_mz: 500
+  max_num_peaks: 300
+  mol_repr: smiles
+  restrict_intensities: false
+  source_token: <nist>
+start_loading_time: 06/11/2024 12:36:40
+tokenizer_path: tokenizer/tokenizer_mf10M.model
+finished_time_utc: 06/11/2024 14:12:36
+generation_time: 01:35:53
+wall_time_utc: 01:35:55
+evaluation_0:
+    average_num_of_predictions: '40.67803837953092'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:00:13
+    formula_stats:
+        num_all_correct_formulas: 1682 / 19078
+        num_at_least_one_correct_formula: '315'
+        num_correct_formulas_at_best_prob: '167'
+        num_correct_formulas_at_best_simil: '242'
+        rate_of_all_correct_formulas: '0.08816437781738128'
+        rate_of_at_least_one_correct_formula: '0.6716417910447762'
+        rate_of_correct_formulas_at_best_prob: '0.35607675906183367'
+        rate_of_correct_formulas_at_best_simil: '0.5159914712153518'
+    hit_at_k_prob: '[(1, 0.16844349680170576), (2, 0.22174840085287847), (3, 0.2601279317697228),
+        (4, 0.2942430703624733), (5, 0.31130063965884863), (6, 0.3390191897654584),
+        (7, 0.34541577825159914), (8, 0.35181236673773986), (9, 0.3582089552238806),
+        (10, 0.3624733475479744), (11, 0.373134328358209), (12, 0.3773987206823028),
+        (13, 0.3816631130063966), (14, 0.3859275053304904), (15, 0.39232409381663114),
+        (16, 0.39445628997867804), (18, 0.39658848614072495), (20, 0.40298507462686567),
+        (23, 0.4072494669509595), (24, 0.4093816631130064), (26, 0.4136460554371002),
+        (27, 0.4157782515991471), (28, 0.417910447761194), (29, 0.4200426439232409),
+        (30, 0.42643923240938164), (32, 0.43070362473347545), (40, 0.43283582089552236)]'
+    labels_path: data/extra_libraries/Cayman_library/Cayman_library_noD.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '32.87917489532216'
+        mean_absolute_mw_difference_best_simil: '33.48748085053382'
+        mean_relative_mw_difference_best_prob: 11.61%
+        mean_relative_mw_difference_best_simil: 12.22%
+        rate_of_exact_mw_prob: '0.34541577825159914'
+        rate_of_exact_mw_simil: '0.5010660980810234'
+        rate_of_exact_nominal_mw_simil: '0.5138592750533049'
+        rate_of_mw_difference_less_than_1_best_prob: '0.4136460554371002'
+        rate_of_mw_difference_less_than_1_best_simil: '0.5330490405117271'
+    num_datapoints_tested: '469'
+    num_empty_preds: '0'
+    num_predictions_at_k_counter: '[469, 468, 467, 467, 464, 464, 462, 460, 458, 457,
+        456, 456, 456, 454, 453, 453, 450, 448, 446, 440, 437, 430, 426, 424, 419,
+        417, 414, 413, 411, 407, 396, 391, 388, 384, 375, 364, 353, 346, 335, 329,
+        317, 301, 276, 252, 228, 212, 184, 139, 102, 60]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '78'
+        num_precise_preds_similsort: '202'
+        rate_of_precise_preds_probsort: '0.16631130063965885'
+        rate_of_precise_preds_similsort: '0.43070362473347545'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 192), (2, 5), (3, 4), (7, 1), (4, 1)])
+        num_1_hits_as_first_probsort: '79'
+        num_1_hits_as_first_similsort: '203'
+        num_fp_simil_fail_prob: '1'
+        num_fp_simil_fail_simil: '1'
+        rate_of_1_hits_as_first_probsort: '0.16844349680170576'
+        rate_of_1_hits_as_first_similsort: '0.43283582089552236'
+    start_time_utc: 06/11/2024 17:51:47
+    threshold_stats:
+        num_better_than_threshold_probsort: '88'
+        num_better_than_threshold_similsort: '222'
+        rate_of_better_than_threshold_probsort: '0.18763326226012794'
+        rate_of_better_than_threshold_similsort: '0.47334754797441364'
+        threshold: '0.85'
+    topk_probsort: '[0.5774642568136692, 0.5167342516468643, 0.49112407810859376,
+        0.482282289270866, 0.4648314230566637, 0.4528045321563656, 0.4502662220996096,
+        0.4426069308100946, 0.43947846165699506, 0.42955609202277195, 0.43098311289234054,
+        0.4174725140236962, 0.42222005922598643, 0.4248054750358882, 0.4250971447615417,
+        0.4116738189237905, 0.4071339275797869, 0.4116466950094764, 0.4006217675680272,
+        0.4024126206438971, 0.3996255036339778, 0.3987084081794179, 0.39757348180038254,
+        0.39817425196569906, 0.39840670326704963, 0.3979923803617992, 0.3900819909258377,
+        0.38032430451191973, 0.3815542672487079, 0.3828645875518933, 0.3754069606675129,
+        0.3859101684621321, 0.3781397408478604, 0.38061220183502903, 0.37086959000126235,
+        0.36853569974112194, 0.359005316813529, 0.3654666915578067, 0.35603871138231286,
+        0.3518675669425424, 0.34727027105018493, 0.3458315554204119, 0.34054214033788494,
+        0.3468513958700824, 0.33955646986262217, 0.3393621918886299, 0.3429525559454282,
+        0.31858082841901414, 0.3157326571464654, 0.3187857802726497]'
+    topk_similsort: '[0.7655906358994793, 0.6632529838231515, 0.6128721259981377,
+        0.5761355469144843, 0.5520382009924789, 0.53128564468233, 0.5156442973434633,
+        0.5026075352948547, 0.48735049693205673, 0.4768305046744859, 0.4671983176538349,
+        0.45725572866519887, 0.4475151635088192, 0.43993600950159206, 0.4318005717319507,
+        0.4234440978298328, 0.4174196207425202, 0.4109675288873601, 0.4033781286892857,
+        0.3976541585107393, 0.3925356624140909, 0.38530858437549664, 0.3790297374454997,
+        0.372563150789615, 0.36768239353415083, 0.36223183698863326, 0.35665315560093624,
+        0.35147844549753615, 0.3456693044115335, 0.3390664109420335, 0.33747089407218506,
+        0.3335697796266356, 0.3270344482225171, 0.3206297769030371, 0.3147807349953135,
+        0.3073393057970671, 0.30259609528977105, 0.2992396263541472, 0.29244981862694924,
+        0.28754112153486383, 0.27829944121814565, 0.2700235224695479, 0.261948758708169,
+        0.2546671957162854, 0.24947625786453148, 0.24309749092745203, 0.23463628655347674,
+        0.22843199139618492, 0.21718289901115442, 0.2047448060504842]'

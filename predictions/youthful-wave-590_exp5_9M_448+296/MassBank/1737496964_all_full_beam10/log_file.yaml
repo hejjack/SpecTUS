@@ -1,0 +1,110 @@
+command: predict.py --checkpoint checkpoints/finetune_clean/youthful-wave-590_exp5_9M_448+296/checkpoint-294952
+  --output-folder predictions --config-file configs/predict_massbank_beam10.yaml
+cuda_visible_devices: '0'
+dataloader:
+  batch_size: 1
+  num_workers: 1
+dataset:
+  data_path: data/massbank/deepei_non_nist_test.jsonl
+  data_split: all
+  dataset_name: MassBank
+general:
+  additional_naming_info: beam10
+  device: cuda
+generation_args:
+  do_sample: false
+  length_penalty: 1.0
+  max_length: 200
+  num_beams: 10
+  num_return_sequences: 10
+  penalty_alpha: null
+  temperature: null
+  top_k: null
+  top_p: null
+preprocess_args:
+  inference_mode: true
+  keep_all_columns: true
+  log_base: 1.28
+  log_shift: 29
+  max_cumsum: null
+  max_mol_repr_len: 100
+  max_mz: 500
+  max_num_peaks: 300
+  mol_repr: smiles
+  restrict_intensities: false
+  source_token: <nist>
+start_loading_time: 21/01/2025 23:02:44
+tokenizer_path: tokenizer/tokenizer_mf10M.model
+finished_time_utc: 21/01/2025 23:36:11
+generation_time: 00:33:24
+wall_time_utc: 00:33:27
+evaluation_0:
+    average_num_of_predictions: '8.638953040800615'
+    eval_config:
+        do_db_search: false
+        filtering_args:
+            max_mol_repr_len: 100
+            max_mz: 500
+            max_num_peaks: 300
+            mol_repr: smiles
+        fingerprint_type: morgan
+        fp_simil_function: tanimoto
+        on_the_fly: true
+        save_best_predictions: true
+        threshold: 0.85
+    eval_time: 00:00:06
+    formula_stats:
+        num_all_correct_formulas: 4948 / 22444
+        num_at_least_one_correct_formula: '1790'
+        num_correct_formulas_at_best_prob: '1318'
+        num_correct_formulas_at_best_simil: '1534'
+        rate_of_all_correct_formulas: '0.22045981108536802'
+        rate_of_at_least_one_correct_formula: '0.6889915319476521'
+        rate_of_correct_formulas_at_best_prob: '0.5073133179368745'
+        rate_of_correct_formulas_at_best_simil: '0.590454195535027'
+    hit_at_k_prob: '[(1, 0.2779060816012317), (2, 0.35642802155504233), (3, 0.394919168591224),
+        (4, 0.4172440338722094), (5, 0.4311008468052348), (6, 0.44187836797536567),
+        (7, 0.45111624326404925), (8, 0.45573518090839105), (9, 0.45804464973056197),
+        (10, 0.4588144726712856)]'
+    labels_path: data/massbank/deepei_non_nist_test.jsonl
+    molecular_weight_stats:
+        mean_absolute_mw_difference_best_prob: '29.000614482668343'
+        mean_absolute_mw_difference_best_simil: '29.65888995609539'
+        mean_relative_mw_difference_best_prob: 20.55%
+        mean_relative_mw_difference_best_simil: 20.78%
+        rate_of_exact_mw_prob: '0.5034642032332564'
+        rate_of_exact_mw_simil: '0.5519630484988453'
+        rate_of_exact_nominal_mw_simil: '0.5796766743648961'
+        rate_of_mw_difference_less_than_1_best_prob: '0.5719784449576597'
+        rate_of_mw_difference_less_than_1_best_simil: '0.6020015396458814'
+    num_datapoints_tested: '2598'
+    num_empty_preds: '0'
+    num_predictions_at_k_counter: '[2598, 2588, 2564, 2528, 2470, 2394, 2264, 2024,
+        1758, 1256]'
+    precise_preds_stats:
+        num_precise_preds_probsort: '688'
+        num_precise_preds_similsort: '1178'
+        rate_of_precise_preds_probsort: '0.26481909160892997'
+        rate_of_precise_preds_similsort: '0.4534257120862202'
+    simil_1_hits:
+        counter_multiple_hits: dict_items([(1, 1060), (2, 82), (3, 38), (5, 2), (4,
+            10)])
+        num_1_hits_as_first_probsort: '722'
+        num_1_hits_as_first_similsort: '1192'
+        num_fp_simil_fail_prob: '34'
+        num_fp_simil_fail_simil: '14'
+        rate_of_1_hits_as_first_probsort: '0.2779060816012317'
+        rate_of_1_hits_as_first_similsort: '0.4588144726712856'
+    start_time_utc: 22/01/2025 10:33:29
+    threshold_stats:
+        num_better_than_threshold_probsort: '730'
+        num_better_than_threshold_similsort: '1202'
+        rate_of_better_than_threshold_probsort: '0.28098537336412627'
+        rate_of_better_than_threshold_similsort: '0.46266358737490376'
+        threshold: '0.85'
+    topk_probsort: '[0.4930041164320121, 0.3919957193153056, 0.35771267302279447,
+        0.3338882087748418, 0.31405786318473206, 0.2970632193938102, 0.28471682544390925,
+        0.2632998869162568, 0.2534791962665846, 0.23533549823822736]'
+    topk_similsort: '[0.6432296864217291, 0.4374451050605849, 0.37008203922686966,
+        0.3291839268733093, 0.296627100799385, 0.26741979032796614, 0.2388055908891173,
+        0.21107739762833538, 0.1898391719544979, 0.16193517731835974]'
