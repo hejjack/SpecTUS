@@ -49,6 +49,8 @@ data_args:
 preprocess_args:
   log_base: 1.28
   log_shift: 29             # if you want default args, this can be whatever (as long as preprocess_args is not empty or None)
+  output_format: "<formula><sep><mol_repr>" # null or a string that controls how the label is constructed
+                                      # allowed tokens: <formula>, <mw>, <sep>, <mol_repr>
 
 model_args:
   tokenizer_path: "tokenizer/tokenizer_mf10M.model"
@@ -78,7 +80,7 @@ hf_training_args:
   do_train: True
   do_eval: True
 
-  max_steps: 224_010
+  max_steps: 112_010
   optim: "adamw_torch"
   warmup_steps: 1000
 
