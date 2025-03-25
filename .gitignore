@@ -18,6 +18,7 @@ neims_gen_analysis_ntbs/*
 **/wandb
 zia_training_stuff
 zia_training_stuff_30M/*
+hidden/*
 deprecated/*
 RLHF/**
 FastEI/**
