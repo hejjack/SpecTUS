@@ -10,8 +10,8 @@ data_args:
       valid_path: "data/nist/valid.jsonl"
       weight: 1.0
       limit_train_split: null    # null for full; limit of head from train set chosen for training split
-      limit_val_split: 100       # null for full; limit of head from valid set chosen for validation split
-      limit_example_split: 20   # null for full; limit of head chosen for visualized (generated) molecules
+      limit_val_split: 10       # null for full; limit of head from valid set chosen for validation split
+      limit_example_split: 10   # null for full; limit of head chosen for visualized (generated) molecules
       source_token: "<nist>"
 
 preprocess_args:
@@ -80,7 +80,7 @@ hf_training_args:
 
   report_to: "wandb"
   remove_unused_columns: False # NEVER TOUCH THIS
-  logging_steps: 5
+  logging_steps: 2
 
   fp16: True
   seed: 42
@@ -89,9 +89,9 @@ hf_training_args:
   # generation_num_beams: 1
   # generation_max_length: 200  # NEVER TOUCH THIS
   evaluation_strategy: "steps"
-  eval_steps: 10 ### make it match (5267 ~ approx 3*full NIST dataset)
+  eval_steps: 2 ### make it match (5267 ~ approx 3*full NIST dataset)
 
-  save_steps: 10 ### make it match (5267 ~ approx 3*full NIST dataset)
+  save_steps: 2 ### make it match (5267 ~ approx 3*full NIST dataset)
   save_strategy: "steps"
   save_total_limit: 1
 

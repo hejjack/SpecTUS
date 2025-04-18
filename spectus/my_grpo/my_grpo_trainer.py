@@ -288,8 +288,11 @@ class SpectusGRPOTrainer(Trainer):
         optimizers: tuple[Optional[torch.optim.Optimizer], Optional[torch.optim.lr_scheduler.LambdaLR]] = (None, None),
         peft_config: Optional["PeftConfig"] = None,
         data_collator = None, # Adam
+        compute_metrics = None, # Adam
         **kwargs, # Adam - for compute_metrics
     ):
+        self.compute_metrics = compute_metrics # Adam
+
         # Args
         if args is None:
             model_name = model if isinstance(model, str) else model.config._name_or_path

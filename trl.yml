@@ -1,0 +1,13 @@
+name: trl
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - ipykernel
+  - pytorch-cuda=11.8
+  - pytorch==2.0.0
+  - torchaudio==2.0.0
+  - torchvision==0.15.0
+  - conda-forge::rdkit
+  - libstdcxx-ng
+prefix: /home/xhajek9/miniconda3/envs/trl

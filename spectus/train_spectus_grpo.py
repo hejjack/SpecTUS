@@ -9,8 +9,7 @@ from pathlib import Path
 from typing import Dict
 from tokenizers import Tokenizer
 import peft
-from trl import GRPOConfig, GRPOTrainer
-from my_grpo import SpectusGRPOTrainer, morgan_tanimoto_reward_function
+from my_grpo import SpectusGRPOTrainer, SpectusGRPOConfig, morgan_tanimoto_reward_function
 
 
 # custom code
@@ -166,7 +165,7 @@ def get_grpo_config(hf_training_args: Dict,
                     run_name: str,
                     dataset_args: Dict,
                     report_to: str,
-                    device: str) -> GRPOConfig:
+                    device: str) -> SpectusGRPOConfig:
     """
     Compose the GRPOConfig object.
     """
@@ -175,7 +174,7 @@ def get_grpo_config(hf_training_args: Dict,
     penalty_alpha = grpo_args["grpo_gen_args"].pop("penalty_alpha")
     length_penalty = grpo_args["grpo_gen_args"].pop("length_penalty")
 
-    config = GRPOConfig(**hf_training_args,
+    config = SpectusGRPOConfig(**hf_training_args,
                     **grpo_args["grpo_gen_args"],
                     max_prompt_length=5,  #### HARDCODED sort out
                     num_generations=grpo_args["group_size"],

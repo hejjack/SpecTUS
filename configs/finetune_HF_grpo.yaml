@@ -86,9 +86,9 @@ hf_training_args:
   fp16: True
   seed: 42
 
-  # predict_with_generate: True # NEVER TOUCH THIS
-  # generation_num_beams: 1
-  # generation_max_length: 200  # NEVER TOUCH THIS
+  predict_with_generate: True # NEVER TOUCH THIS
+  generation_num_beams: 1
+  generation_max_length: 200  # NEVER TOUCH THIS
   evaluation_strategy: "steps"
   eval_steps: 5267 ### make it match (5267 ~ approx 3*full NIST dataset)
 
