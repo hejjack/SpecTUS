@@ -187,10 +187,18 @@ class SpectroMetrics:
         pred_canons = [Chem.MolToSmiles(x) if x is not None else "" for x in pred_mols]
         pred_formulas_computed_all = [rdMolDescriptors.CalcMolFormula(x) if x is not None else "" for x in pred_mols]
 
-        rate_matched_formulas = compute_rate_matched_formulas(pred_formulas_computed_all, parsed_labels["formula"], input_formulas=True)
+
         rate_pred_canon_smiles = compute_rate_canons(preds_mol_repr_all, pred_canons=pred_canons) # type: ignore   #!
         rate_exact_smiles = np.sum(np.array(preds_mol_repr_all) == np.array(labels_mol_repr_all)) / len(preds_mol_repr_all)
         rate_exact_mols = np.sum(np.array(pred_canons) == np.array(labels_mol_repr_all)) / len(pred_canons)         #!
+
+        # metric comparing formulas of generated SMILES to ground truth SMILES (use precomputed if directly available in label otherwise compute it)
+        if "formula" in self.output_format:
+            rate_matched_formulas = compute_rate_matched_formulas(pred_formulas_computed_all, parsed_labels["formula"], input_formulas=True)
+        else:
+            gt_formulas_computed_all = [rdMolDescriptors.CalcMolFormula(x) if x is not None else "" for x in gt_mols]
+            rate_matched_formulas = compute_rate_matched_formulas(pred_formulas_computed_all, gt_formulas_computed_all, input_formulas=True)
+
 
         metrics = {}
         metrics["daylight_tanimoto_simil"] = np.mean(daylight_tanimoto_simils)

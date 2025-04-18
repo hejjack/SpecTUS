@@ -14,7 +14,9 @@
 
 import warnings
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Optional, Union
+from transformers.generation.configuration_utils import GenerationConfig
+
 
 from transformers import TrainingArguments
 
@@ -135,6 +137,30 @@ class SpectusGRPOConfig(TrainingArguments):
             Whether to log a sample of (prompt, completion) pairs every `logging_steps` steps. If `rich` is
             installed, it prints the sample. If `wandb` logging is enabled, it logs it to `wandb`.
     """
+    generation_num_beams: Optional[int] = field(
+        default=1,
+        metadata={
+            "help": "The number of beams to use for generation."
+        },
+    )
+
+    # Adam
+    generation_max_length: Optional[int] = field(
+        default=200,
+        metadata={
+            "help": "The maximum length of the generated completion."
+        },
+    )
+
+    # Adam
+    generation_config: Optional[Union[str, GenerationConfig]] = field(
+        default=None,
+        metadata={
+            "help": "A `transformers.GenerationConfig` object that will be used to generate the completion."
+        },
+    )
+
+    # Adam
     predict_with_generate: bool = field(
         default=True,
         metadata={

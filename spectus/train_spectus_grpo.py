@@ -428,14 +428,14 @@ def main(config_file: Path = typer.Option(..., dir_okay=False, help="Path to the
 
     trainer = SpectusGRPOTrainer(
                     model=model,
-                    processing_class=tokenizer,
+                    args=grpo_config,
                     train_dataset=datapipes["train"],
                     eval_dataset=datapipes["valid"],
-                    reward_funcs=[morgan_tanimoto_reward_function],
-                    compute_metrics=compute_metrics,
-                    args=grpo_config,
                     callbacks=[prediction_callback],
+                    processing_class=tokenizer,
+                    compute_metrics=compute_metrics,
                     data_collator = SpectroDataCollator(restrict_intensities=model_args.get("restrict_intensities", False)),
+                    reward_funcs=[morgan_tanimoto_reward_function],
                 )
 
 
