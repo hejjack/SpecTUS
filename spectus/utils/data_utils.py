@@ -6,7 +6,7 @@ from __future__ import annotations
 import json
 import torch
 from torch.utils.data import Dataset
-from torchdata.datapipes.iter import IterDataPipe, IterableWrapper, SampleMultiplexer, Concater, Header
+from torchdata.datapipes.iter import IterDataPipe, IterableWrapper, SampleMultiplexer, Concater
 from typing import Callable, Dict, Union, Any, Optional, List, Tuple, TypeVar
 import warnings
 import pandas as pd
@@ -15,7 +15,7 @@ from pathlib import Path
 from rdkit import Chem
 import selfies as sf
 from tqdm import tqdm
-import utils.spectra_process_utils as spu
+import spectus.utils.spectra_process_utils as spu
 
 tqdm.pandas()
 T_co = TypeVar("T_co", covariant=True)
@@ -74,15 +74,15 @@ class SpectroDataCollator:
     def _collate_batch(self, batch: List[Dict[str, list]]) -> Dict[str, torch.Tensor]:
         """Collate `examples` into a batch"""
         longest_encoder_sequence = max(len(e["input_ids"]) for e in batch)
-        inputs = torch.tensor([e["input_ids"] + [0] * (longest_encoder_sequence - len(e["input_ids"])) for e in batch])   # adding padding
+        inputs = torch.tensor([e["input_ids"] + [0] * (longest_encoder_sequence - len(e["input_ids"])) for e in batch], dtype=torch.int32)   # adding padding
         out = {"input_ids": inputs}
 
         if not self.restrict_intensities: # add position_ids too
-            out["position_ids"] = torch.tensor([e["position_ids"] + [0] * (longest_encoder_sequence - len(e["position_ids"])) for e in batch]) # adding padding
+            out["position_ids"] = torch.tensor([e["position_ids"] + [0] * (longest_encoder_sequence - len(e["position_ids"])) for e in batch], dtype=torch.int32) # adding padding
 
         if not self.inference_mode: # add labels too
             longest_decoder_sequence = max(len(e["labels"]) for e in batch)
-            labels = torch.tensor([e["labels"] + [-100] * (longest_decoder_sequence - len(e["labels"])) for e in batch]) # adding padding
+            labels = torch.tensor([e["labels"] + [-100] * (longest_decoder_sequence - len(e["labels"])) for e in batch], dtype=torch.int32) # adding padding
             out["attention_mask"] = (inputs != 0).int()
             out["decoder_attention_mask"] = (labels != -100).int()
             out["labels"] = labels
@@ -357,7 +357,7 @@ def build_single_datapipe(json_file: str,
                           limit: Optional[int] = None,
                           source_token: Optional[str] = None,
                           preprocess_args: Optional[Dict[str, Any]] = None,
-                        ):
+                        ) -> IterDataPipe:
     """
     Build a single datapipe from a json file.
 

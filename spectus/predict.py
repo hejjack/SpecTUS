@@ -13,10 +13,10 @@ from tqdm import tqdm
 from typing import Dict, Any, Tuple, List
 
 from rdkit import Chem, RDLogger
-from utils.data_utils import SpectroDataCollator, build_single_datapipe
+from spectus.utils.data_utils import SpectroDataCollator, build_single_datapipe
 # from model import SpectusForConditionalGeneration
-from model.modeling_spectus import SpectusForConditionalGeneration
-from utils.general_utils import build_tokenizer, get_sequence_probs, timestamp_to_readable, hours_minutes_seconds
+from spectus.model.modeling_spectus import SpectusForConditionalGeneration
+from spectus.utils.general_utils import build_tokenizer, get_sequence_probs, timestamp_to_readable, hours_minutes_seconds
 from copy import deepcopy
 
 RDLogger.DisableLog('rdApp.*')
@@ -79,6 +79,7 @@ def prepare_decoder_input(decoder_input_token: str, tokenizer: PreTrainedTokeniz
         decoder_input_ids_batch = torch.tensor([decoder_input_ids_single] * batch_size)
     else:
         decoder_input_ids_batch = None
+
     return decoder_input_ids_batch
 
 

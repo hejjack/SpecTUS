@@ -18,11 +18,10 @@ from rdkit.Chem.Descriptors import ExactMolWt
 from matchms.similarity import ModifiedCosine, CosineGreedy
 from matchms import Spectrum
 
-from utils.spectra_process_utils import get_fp_generator, get_fp_simil_function
-from utils.data_utils import filter_datapoints
-from utils.general_utils import timestamp_to_readable, hours_minutes_seconds
-from utils.general_utils import timestamp_to_readable, hours_minutes_seconds
-from predict import open_files
+from spectus.utils.spectra_process_utils import get_fp_generator, get_fp_simil_function
+from spectus.utils.data_utils import filter_datapoints
+from spectus.utils.general_utils import timestamp_to_readable, hours_minutes_seconds
+from spectus.predict import open_files
 
 RDLogger.DisableLog('rdApp.*')
 

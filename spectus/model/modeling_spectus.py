@@ -21,6 +21,7 @@ Maybe some other adjustments are adadded. """
 
 from transformers.modeling_outputs import BaseModelOutput
 from .configuration_spectus import SpectusConfig
+import transformers
 from transformers.models.bart.modeling_bart import BartPretrainedModel, BartLearnedPositionalEmbedding, BartEncoderLayer, BartDecoder, BartDecoderLayer
 from transformers.utils import ModelOutput
 from transformers.modeling_outputs import dataclass
@@ -352,6 +353,9 @@ class SpectusDecoder(BartDecoder):
         self.padding_idx = config.pad_token_id
         self.max_target_positions = config.decoder_max_position_embeddings
         self.embed_scale = math.sqrt(config.d_model) if config.scale_embedding else 1.0
+        self._use_flash_attention_2 = False # transformers.__version__ > "4.33" # Adam - flash attention 2 was added in 4.33
+        # TODO: make flash attention 2 work - it is needed to reshape attention mask correctly i guess or sth. Speedup could be significant
+        self._use_sdpa = False #transformers.__version__ > "4.34" # Adam - flash attention 2 was added in 4.33
 
         self.embed_tokens = nn.Embedding(config.vocab_size, config.d_model, self.padding_idx)
 

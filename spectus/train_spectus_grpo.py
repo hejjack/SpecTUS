@@ -9,15 +9,18 @@ from pathlib import Path
 from typing import Dict
 from tokenizers import Tokenizer
 import peft
+from trl import GRPOConfig, GRPOTrainer
+from my_grpo import SpectusGRPOTrainer, morgan_tanimoto_reward_function
+
 
 # custom code
-from spectus.callbacks import PredictionLogger
-from spectus.metrics import SpectroMetrics
-from spectus.utils.data_utils import SpectroDataCollator, load_all_datapipes
-from spectus.model.modeling_spectus import SpectusForConditionalGeneration
-from spectus.model.configuration_spectus import SpectusConfig
-from spectus.model.selfies_tokenizer import hardcode_build_selfies_tokenizer
-from spectus.utils.general_utils import get_nice_time, build_tokenizer
+from callbacks import PredictionLogger
+from metrics import SpectroMetrics
+from utils.data_utils import SpectroDataCollator, load_all_datapipes
+from model.modeling_spectus import SpectusForConditionalGeneration
+from model.configuration_spectus import SpectusConfig
+from model.selfies_tokenizer import hardcode_build_selfies_tokenizer
+from utils.general_utils import get_nice_time, build_tokenizer
 
 app = typer.Typer()
 
@@ -156,6 +159,47 @@ def freeze_model(model, train_using_peft, train_fc1_only, custom_freeze):
                 param.requires_grad = True
 
 
+def get_grpo_config(hf_training_args: Dict,
+                    grpo_args: Dict,
+                    model_args: Dict,
+                    save_path: Path,
+                    run_name: str,
+                    dataset_args: Dict,
+                    report_to: str,
+                    device: str) -> GRPOConfig:
+    """
+    Compose the GRPOConfig object.
+    """
+    # values missing from GRPOConfig
+    do_sample = grpo_args["grpo_gen_args"].pop("do_sample")
+    penalty_alpha = grpo_args["grpo_gen_args"].pop("penalty_alpha")
+    length_penalty = grpo_args["grpo_gen_args"].pop("length_penalty")
+
+    config = GRPOConfig(**hf_training_args,
+                    **grpo_args["grpo_gen_args"],
+                    max_prompt_length=5,  #### HARDCODED sort out
+                    num_generations=grpo_args["group_size"],
+                    max_completion_length=model_args["decoder_seq_len"] - 5, #### HARDCODED sort out
+                    epsilon=grpo_args["epsilon"],
+                    beta=grpo_args["beta"],
+                    reward_weights=[1.0],
+                    sync_ref_model=True,        # update ref (?old?) model with new one every x steps
+                    ref_model_mixup_alpha=0.6,  # update the reference model by mixing it with the current model
+                    ref_model_sync_steps=grpo_args["update_old_after"],
+                    num_iterations=grpo_args["num_iterations"], # number of iterations per batch
+                    output_dir=str(save_path),
+                    run_name=run_name,
+                    data_seed=dataset_args["data_seed"],
+                    report_to=[report_to],
+                    # use_cpu= device == "cpu", # coming in future versions
+                    )
+    config.num_completions_to_print=grpo_args["num_completions_to_print"],
+    config.do_sample = do_sample
+    config.penalty_alpha = penalty_alpha
+    config.length_penalty = length_penalty
+    config.is_encoder_decoder = True
+    return config
+
 
 def get_spectro_config(model_args: Dict, tokenizer: transformers.PreTrainedTokenizerFast) -> SpectusConfig:
     assert not (bool(model_args.get("restrict_intensities", None)) ^ bool(model_args.get("encoder_seq_len", None))), "restrict_intensities and encoder_position_embeddings must be both provided or both None"
@@ -209,7 +253,7 @@ def main(config_file: Path = typer.Option(..., dir_okay=False, help="Path to the
     assert device in ["cuda", "cpu"], "ArgumentError: Device must be 'cuda' or 'cpu'"
     if device == "cpu":
         print("Training on CPU is currently not supported due to dependency issues.")
-        return
+        # return
 
     if additional_tags:
         add_tags = additional_tags.split(":")
@@ -240,6 +284,7 @@ def main(config_file: Path = typer.Option(..., dir_okay=False, help="Path to the
     preprocess_args = config.get("preprocess_args", {})
     model_args = config["model_args"]
     example_gen_args = config["example_generation_args"]
+    grpo_args = config["grpo_args"]
     tokenizer_path = model_args["tokenizer_path"]
     report_to = hf_training_args.pop("report_to", "none")
     use_wandb = report_to == "wandb"
@@ -318,6 +363,7 @@ def main(config_file: Path = typer.Option(..., dir_okay=False, help="Path to the
     total_params = sum(p.shape.numel() for p in model.parameters())
     print(f"Number of trained parameters: {tuned_params}/{total_params} = {tuned_params/total_params*100:.2f}%")
 
+
     # Init wandb
     if use_wandb:
         log_tags = [d for d in dataset_args["datasets"].keys()]
@@ -375,26 +421,21 @@ def main(config_file: Path = typer.Option(..., dir_okay=False, help="Path to the
                                         #    log_to_wandb=use_wandb,
                                            generate_kwargs=example_gen_args,
                                            output_format=preprocess_args["output_format"],
+                                           tokenizer=tokenizer,
                                         )
 
     compute_metrics = SpectroMetrics(tokenizer, output_format=preprocess_args["output_format"])
-    seq2seq_training_args = transformers.Seq2SeqTrainingArguments(**hf_training_args,
-                                                                    output_dir=str(save_path),
-                                                                    run_name=run_name,
-                                                                    data_seed=dataset_args["data_seed"],
-                                                                    report_to=[report_to],
-                                                                    # use_cpu= device == "cpu", # coming in future versions
-                                                                    )
+    grpo_config = get_grpo_config(hf_training_args, grpo_args, model_args, save_path, run_name, dataset_args, report_to, device)
 
-
-    trainer = transformers.Seq2SeqTrainer(
+    trainer = SpectusGRPOTrainer(
                     model=model,
-                    args=seq2seq_training_args,
+                    processing_class=tokenizer,
                     train_dataset=datapipes["train"],
                     eval_dataset=datapipes["valid"],
-                    callbacks=[prediction_callback],
-                    tokenizer=tokenizer,
+                    reward_funcs=[morgan_tanimoto_reward_function],
                     compute_metrics=compute_metrics,
+                    args=grpo_config,
+                    callbacks=[prediction_callback],
                     data_collator = SpectroDataCollator(restrict_intensities=model_args.get("restrict_intensities", False)),
                 )
 

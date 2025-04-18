@@ -6,9 +6,9 @@ from rdkit.Chem import rdMolDescriptors
 import numpy as np
 
 import selfies as sf
-from model.selfies_tokenizer import SelfiesTokenizer
-from utils.data_utils import parse_outputs_list
-from utils.spectra_process_utils import get_fp_generator, get_fp_simil_function
+from spectus.model.selfies_tokenizer import SelfiesTokenizer
+from spectus.utils.data_utils import parse_outputs_list
+from spectus.utils.spectra_process_utils import get_fp_generator, get_fp_simil_function
 
 def compute_fp_simils(preds: list[str] | list[Chem.rdchem.Mol],
                       labels: list[str] | list[Chem.rdchem.Mol],

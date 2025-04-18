@@ -6,7 +6,6 @@ from typing import Callable, Iterable
 from tqdm.auto import tqdm
 import pandas as pd
 import transformers
-from utils.data_utils import parse_outputs_list
 import wandb
 import torch
 import torch.utils.data
@@ -14,9 +13,11 @@ from rdkit.Chem import Draw
 
 import selfies as sf
 
-from model.modeling_spectus import SpectusForConditionalGeneration
-from model.selfies_tokenizer import SelfiesTokenizer
-from metrics import compute_fp_simils
+from spectus.utils.data_utils import parse_outputs_list
+from spectus.model.modeling_spectus import SpectusForConditionalGeneration
+from spectus.model.selfies_tokenizer import SelfiesTokenizer
+from spectus.metrics import compute_fp_simils
+from spectus.predict import prepare_decoder_input
 
 
 class PredictionLogger(transformers.TrainerCallback):
@@ -69,7 +70,9 @@ class PredictionLogger(transformers.TrainerCallback):
         """
 
         model: SpectusForConditionalGeneration = kwargs["model"]
-        tokenizer: transformers.PreTrainedTokenizerFast | SelfiesTokenizer = kwargs["tokenizer"] # if missing add to the class args
+        tokenizer = kwargs["processing_class"]
+        # tokenizer: transformers.PreTrainedTokenizerFast | SelfiesTokenizer = kwargs["tokenizer"] # if missing add to the class args
+
         batch_size = args.per_device_eval_batch_size
 
         dataloader = torch.utils.data.DataLoader(
@@ -92,7 +95,7 @@ class PredictionLogger(transformers.TrainerCallback):
         all_morgan_tanimoto_simils = []
 
         gen_kwargs = self.generate_kwargs.copy()
-        gen_kwargs["forced_decoder_ids"] = [[1, tokenizer.encode(source_token)[0]]]
+        decoder_input_ids = prepare_decoder_input(source_token, tokenizer, batch_size).to(args.device)
 
         # decide wether to use selfies or smiles
         if isinstance(tokenizer, SelfiesTokenizer):
@@ -105,7 +108,8 @@ class PredictionLogger(transformers.TrainerCallback):
             for batch in progress:
                 model_input = {key: value.to(args.device) for key, value in batch.items()} # move tensors from batch to device
                 preds = model.generate(**model_input,
-                                       **gen_kwargs)
+                                       **gen_kwargs,
+                                       decoder_input_ids=decoder_input_ids[:batch["labels"].shape[0]]) # for cases where the batch is not full
 
                 batch["labels"][batch["labels"] == -100] = 2 # replace -100 with pad token
                 raw_preds_str = tokenizer.batch_decode(preds, skip_special_tokens=False)

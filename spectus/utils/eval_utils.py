@@ -7,7 +7,7 @@ from typing import Optional
 from tqdm import tqdm
 tqdm.pandas()
 
-from  utils.data_utils import build_single_datapipe, filter_datapoints, range_filter
+from  spectus.utils.data_utils import build_single_datapipe, filter_datapoints, range_filter
 
 
 def filter_predictions(old_predictions_path, original_data_path, old_config, new_config, save_path=None):

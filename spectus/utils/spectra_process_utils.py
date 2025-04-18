@@ -4,23 +4,23 @@ import sys
 sys.path.append("../")
 
 from typing import List, Optional
+
+import numpy as np
+import pandas as pd
+from tqdm import tqdm
+from pathlib import Path
+import json
+import selfies as sf
+
 from matchms import Spectrum
 from matchms.importing import load_from_msp
 from matchms.exporting import save_as_json
 from rdkit.Chem import PandasTools
-import pandas as pd
 from rdkit import Chem, DataStructs
-import numpy as np
-import pandas as pd
-from tqdm import tqdm
-
 from transformers import PreTrainedTokenizerFast
-from model.selfies_tokenizer import SelfiesTokenizer
-from pathlib import Path
-import selfies as sf
-import json
 
-import utils.data_utils as du
+import spectus.utils.data_utils as du
+from spectus.model.selfies_tokenizer import SelfiesTokenizer
 
 tqdm.pandas()
 
