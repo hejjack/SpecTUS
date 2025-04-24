@@ -1210,8 +1210,8 @@ def morgan_tanimoto_reward_function(prompts, completions, labels=None, exact_mol
         fp_kwargs={"radius": 2, "fpSize": 2048}
     )
     if exact_mol_reward is not None:
-        for i, completion in enumerate(clean_completions):
-            if completion == labels[i]:
+        for i, (completion, similarity) in enumerate(zip(clean_completions, similarities)):
+            if similarity == 1.0 and completion == labels[i]:
                 similarities[i] = exact_mol_reward
 
     return similarities

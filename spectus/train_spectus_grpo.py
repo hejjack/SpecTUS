@@ -1,6 +1,6 @@
 import os
 import wandb
-from functools import partial
+from functools import partial, update_wrapper
 from pathlib import Path
 import torch
 from torch.optim import AdamW
@@ -441,6 +441,8 @@ def main(config_file: Path = typer.Option(..., dir_okay=False, help="Path to the
     compute_metrics = SpectroMetrics(tokenizer, output_format=preprocess_args["output_format"])
     grpo_config = get_grpo_config(hf_training_args, grpo_args, model_args, save_path, run_name, dataset_args, report_to, device)
     reward_func = partial(morgan_tanimoto_reward_function, exact_mol_reward=grpo_args.get("exact_mol_reward", None))
+    reward_func = update_wrapper(reward_func, morgan_tanimoto_reward_function)
+
     trainer = SpectusGRPOTrainer(
                     model=model,
                     args=grpo_config,
@@ -453,7 +455,6 @@ def main(config_file: Path = typer.Option(..., dir_okay=False, help="Path to the
                     reward_funcs=[reward_func],
                     optimizers=(optimizer, scheduler),
                 )
-
 
     if checkpoint and resume_id:
         trainer.train(resume_from_checkpoint=str(checkpoint))
