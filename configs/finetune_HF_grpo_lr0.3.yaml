@@ -28,7 +28,7 @@ grpo_args:
   num_completions_to_print: 3
   grpo_gen_args:
     "top_k": null
-    "top_p": nullnull
+    "top_p": null
     "do_sample": False
     "temperature": null
     "penalty_alpha": null
@@ -68,7 +68,7 @@ hf_training_args:
   optim: "adamw_torch"
   warmup_steps: 1000
 
-  learning_rate: 0.00002
+  learning_rate: 0.00003
   auto_bs: False
   spectus_size: "base"         # "large" or "base"
   per_device_train_batch_size: 16   # play with this in future

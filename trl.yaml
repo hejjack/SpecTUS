@@ -10,4 +10,5 @@ dependencies:
   - torchvision==0.15.0
   - conda-forge::rdkit
   - libstdcxx-ng
+  - wandb
 prefix: /home/xhajek9/miniconda3/envs/trl

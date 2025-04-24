@@ -1,7 +1,9 @@
 import os
 import wandb
+from functools import partial
 from pathlib import Path
 import torch
+from torch.optim import AdamW
 import transformers
 import typer
 import yaml
@@ -11,6 +13,8 @@ from tokenizers import Tokenizer
 import peft
 from my_grpo import SpectusGRPOTrainer, SpectusGRPOConfig, morgan_tanimoto_reward_function
 
+# Import scheduler functions
+from spectus.schedule import build_scheduler
 
 # custom code
 from callbacks import PredictionLogger
@@ -190,6 +194,7 @@ def get_grpo_config(hf_training_args: Dict,
                     run_name=run_name,
                     data_seed=dataset_args["data_seed"],
                     report_to=[report_to],
+                    exact_mol_reward=grpo_args.get("exact_mol_reward", None),
                     # use_cpu= device == "cpu", # coming in future versions
                     )
     config.num_completions_to_print=grpo_args["num_completions_to_print"],
@@ -284,6 +289,7 @@ def main(config_file: Path = typer.Option(..., dir_okay=False, help="Path to the
     model_args = config["model_args"]
     example_gen_args = config["example_generation_args"]
     grpo_args = config["grpo_args"]
+    scheduler_args = config["scheduler_args"]
     tokenizer_path = model_args["tokenizer_path"]
     report_to = hf_training_args.pop("report_to", "none")
     use_wandb = report_to == "wandb"
@@ -362,6 +368,15 @@ def main(config_file: Path = typer.Option(..., dir_okay=False, help="Path to the
     total_params = sum(p.shape.numel() for p in model.parameters())
     print(f"Number of trained parameters: {tuned_params}/{total_params} = {tuned_params/total_params*100:.2f}%")
 
+    # init optimizer
+    scheduler_args["num_training_steps"] = hf_training_args["max_steps"]
+    scheduler_name = scheduler_args.pop("name", None)
+    if scheduler_name is None:
+        scheduler = None
+        optimizer = None
+    else:
+        optimizer = torch.optim.AdamW(model.parameters(), lr=hf_training_args["learning_rate"], weight_decay=0.01, eps=1e-6)
+        scheduler = build_scheduler(optimizer, scheduler_name, scheduler_args)
 
     # Init wandb
     if use_wandb:
@@ -425,7 +440,7 @@ def main(config_file: Path = typer.Option(..., dir_okay=False, help="Path to the
 
     compute_metrics = SpectroMetrics(tokenizer, output_format=preprocess_args["output_format"])
     grpo_config = get_grpo_config(hf_training_args, grpo_args, model_args, save_path, run_name, dataset_args, report_to, device)
-
+    reward_func = partial(morgan_tanimoto_reward_function, exact_mol_reward=grpo_args.get("exact_mol_reward", None))
     trainer = SpectusGRPOTrainer(
                     model=model,
                     args=grpo_config,
@@ -435,7 +450,8 @@ def main(config_file: Path = typer.Option(..., dir_okay=False, help="Path to the
                     processing_class=tokenizer,
                     compute_metrics=compute_metrics,
                     data_collator = SpectroDataCollator(restrict_intensities=model_args.get("restrict_intensities", False)),
-                    reward_funcs=[morgan_tanimoto_reward_function],
+                    reward_funcs=[reward_func],
+                    optimizers=(optimizer, scheduler),
                 )
 
 

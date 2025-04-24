@@ -293,8 +293,10 @@ class SpectusGRPOTrainer(transformers.Seq2SeqTrainer):
         peft_config: Optional["PeftConfig"] = None,
         data_collator = None, # Adam
         compute_metrics = None, # Adam
-        **kwargs, # Adam - for compute_metrics
+        exact_mol_reward: Optional[float] = None, # Adam
+        **kwargs, # Adam -
     ):
+        self.exact_mol_reward = exact_mol_reward
 
         # Args
         if args is None:
@@ -866,8 +868,22 @@ class SpectusGRPOTrainer(transformers.Seq2SeqTrainer):
             self._metrics[mode][f"rewards/{reward_func_name}/mean"].append(mean_rewards)
             std_rewards = nanstd(rewards_per_func[:, i]).item()
             self._metrics[mode][f"rewards/{reward_func_name}/std"].append(std_rewards)
+            # Replace NaN with -inf for min and +inf for max to get correct min/max ignoring NaNs
+            min_rewards = torch.min(torch.nan_to_num(rewards_per_func[:, i], nan=float('inf'))).item()
+            self._metrics[mode][f"rewards/{reward_func_name}/min"].append(min_rewards)
+            max_rewards = torch.max(torch.nan_to_num(rewards_per_func[:, i], nan=float('-inf'))).item()
+            self._metrics[mode][f"rewards/{reward_func_name}/max"].append(max_rewards)
+
+            # Count number of exact molecule matches if exact_mol_reward is set and normalize by batch size
+            if self.exact_mol_reward is not None:
+                exact_matches = (rewards_per_func[:, i] == self.exact_mol_reward).sum().item()
+                exact_matches = exact_matches / len(inputs["input_ids"])  # Normalize by batch size  TODO: check if this is correct
+                self._metrics[mode][f"rewards/{reward_func_name}/exact_matches"].append(exact_matches)
+
         self._metrics[mode]["reward"].append(mean_grouped_rewards.mean().item())
         self._metrics[mode]["reward_std"].append(std_grouped_rewards.mean().item())
+        self._metrics[mode]["reward_min"].append(mean_grouped_rewards.min().item())
+        self._metrics[mode]["reward_max"].append(mean_grouped_rewards.max().item())
 
         if self.log_completions and self.state.global_step % self.args.logging_steps == 0:
             labels_text = self.processing_class(inputs["labels"], return_tensors="pt", padding=True, padding_side="left", add_special_tokens=False)
@@ -1160,7 +1176,7 @@ class SpectusGRPOTrainer(transformers.Seq2SeqTrainer):
         return loss, generated_tokens, labels
 
 
-def morgan_tanimoto_reward_function(prompts, completions, labels=None, **kwargs):
+def morgan_tanimoto_reward_function(prompts, completions, labels=None, exact_mol_reward=None, **kwargs):
     """
     Compute Morgan fingerprint Tanimoto similarity between predicted SMILES strings and reference SMILES.
 
@@ -1169,6 +1185,8 @@ def morgan_tanimoto_reward_function(prompts, completions, labels=None, **kwargs)
         completions (list): List of predicted SMILES or model outputs as strings.
         labels (list, optional): List of reference SMILES strings. If provided, similarity is computed
                                 between completions and labels. If not provided, labels should be in kwargs.
+        exact_mol_reward (float, optional): Reward for exact molecule match. If provided, it will be used as a reward
+                                            for completions that match the labels exactly.
         **kwargs: Additional keyword arguments, should include 'labels' if not provided directly.
 
     Returns:
@@ -1180,7 +1198,7 @@ def morgan_tanimoto_reward_function(prompts, completions, labels=None, **kwargs)
         warnings.warn("No labels provided for reward computation. Returning None.")
         return [None] * len(completions)
 
-    # Clean predicted completions (convert from list format or chatbot format if needed)
+    # Clean predicted completions
     clean_completions = [c.strip() for c in completions]
 
     # Compute Morgan fingerprint Tanimoto similarities
@@ -1191,63 +1209,9 @@ def morgan_tanimoto_reward_function(prompts, completions, labels=None, **kwargs)
         fp_type="morgan",
         fp_kwargs={"radius": 2, "fpSize": 2048}
     )
+    if exact_mol_reward is not None:
+        for i, completion in enumerate(clean_completions):
+            if completion == labels[i]:
+                similarities[i] = exact_mol_reward
+
     return similarities
-
-
-
-# def prepare_dataset_for_grpo(dataset, mol_repr_field='labels'):
-#     """
-#     Transform a standard Spectus dataset into a format suitable for GRPO training.
-
-#     Args:
-#         dataset: The input dataset, typically a Hugging Face Dataset or IterableDataset.
-#         mol_repr_field (str, optional): The field name containing the molecule representation
-#                                        (SMILES/SELFIES) in the dataset. Default is 'labels'.
-
-#     Returns:
-#         Dataset: A transformed dataset suitable for GRPO training.
-#     """
-#     from datasets import Dataset as HFDataset
-
-#     # Function to convert a single example to GRPO format
-#     def transform_example(example):
-#         # GRPO expects a "prompt" field for the input
-#         # We'll use the input_ids, attention_mask, etc. from the original example
-#         return {
-#             "prompt": {
-#                 "input_ids": example["input_ids"],
-#                 "attention_mask": example["attention_mask"],
-#                 "position_ids": example.get("position_ids", None),
-#                 # Add all other encoder-related fields
-#             },
-#             # Keep the labels for reward computation
-#             "labels": example[mol_repr_field],
-#             # Add additional fields needed for reward computation
-#             "mol_repr": example.get(mol_repr_field, example.get("labels", "")),
-#         }
-
-#     # If dataset is a list, convert it to a HF Dataset
-#     if isinstance(dataset, list):
-#         transformed_data = [transform_example(example) for example in dataset]
-#         return HFDataset.from_list(transformed_data)
-
-#     # If it's already a HF Dataset, map the transform function
-#     if hasattr(dataset, 'map'):
-#         return dataset.map(transform_example)
-
-#     # If it's an IterableDataset, we need to wrap the iterator
-#     from datasets import IterableDataset
-#     if isinstance(dataset, IterableDataset):
-#         def transform_iterator():
-#             for example in dataset:
-#                 yield transform_example(example)
-
-#         return IterableDataset.from_generator(transform_iterator)
-
-#     # Fallback for other dataset types
-#     warnings.warn(f"Unsupported dataset type: {type(dataset)}. Attempting to convert manually.")
-#     transformed_data = []
-#     for example in dataset:
-#         transformed_data.append(transform_example(example))
-
-#     return HFDataset.from_list(transformed_data)

@@ -47,6 +47,7 @@ spectus/model/modeling_spectus.py
 spectus/model/selfies_tokenizer.py
 spectus/my_grpo/__init__.py
 spectus/my_grpo/grpo_summarization.py
+spectus/my_grpo/my_grpo_config.py
 spectus/my_grpo/my_grpo_trainer.py
 spectus/utils/__init__.py
 spectus/utils/data_utils.py

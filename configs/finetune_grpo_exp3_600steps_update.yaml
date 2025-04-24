@@ -10,8 +10,8 @@ data_args:
       valid_path: "data/nist/valid.jsonl"
       weight: 1.0
       limit_train_split: null    # null for full; limit of head from train set chosen for training split
-      limit_val_split: null      # null for full; limit of head from valid set chosen for validation split
-      limit_example_split: 100   # null for full; limit of head chosen for visualized (generated) molecules
+      limit_val_split: 5000      # null for full; limit of head from valid set chosen for validation split
+      limit_example_split: 50   # null for full; limit of head chosen for visualized (generated) molecules
       source_token: "<nist>"
 
 preprocess_args:
@@ -20,7 +20,7 @@ preprocess_args:
 
 grpo_args:
   group_size: 8
-  update_old_after: 100   # 500
+  update_old_after: 600   # 500
   epsilon: 0.1            # controls the gradient clipping
   beta: 0.04              # controls the KL penalty
   gradient_max_norm: 0.2  # controls the gradient clipping
@@ -35,6 +35,12 @@ grpo_args:
     "length_penalty": 1.0      # (use for beam search otherwise set to 0)
 
 
+scheduler_args:  # !!! NOT YET TESTED FOR RESUMING FROM CHECKPOINT (probably not working)
+  name: "linear_cosine"  # options: "linear_cosine", "cosine_cosine", "cosine_sine"
+  num_warmup_steps: 1000
+  num_plateau_steps: 1000
+  num_cycles: 4  # for sine scheduler otherwise wont apply
+  oscillation_amplitude: 0.1  # for sine scheduler otherwise wont apply
 
 model_args:
   tokenizer_path: "tokenizer/tokenizer_mf10M.model"
@@ -68,7 +74,7 @@ hf_training_args:
   optim: "adamw_torch"
   warmup_steps: 1000
 
-  learning_rate: 0.00002
+  learning_rate: 0.00004
   auto_bs: False
   spectus_size: "base"         # "large" or "base"
   per_device_train_batch_size: 16   # play with this in future

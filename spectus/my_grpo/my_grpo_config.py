@@ -145,6 +145,14 @@ class SpectusGRPOConfig(TrainingArguments):
     )
 
     # Adam
+    exact_mol_reward: Optional[float] = field(
+        default=None,
+        metadata={
+            "help": "Reward for exact molecule match. If provided, it will be used as a reward for completions that match the labels exactly."
+        },
+    )
+
+    # Adam
     generation_max_length: Optional[int] = field(
         default=200,
         metadata={
