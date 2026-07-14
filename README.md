@@ -36,16 +36,16 @@ Data preprocessing, pretraining, finetuning, hyperparameter search, model evalua
 An example notebook for [inference](notebooks/5_inference_on_open_data.ipynb) is available to help you get started reconstructing spectra from an `msp` file once you have your model trained.
 
 ## 📄 Citation
-If you use **SpecTUS** in your research, please cite (OLD CITATION):
+If you use **SpecTUS** in your research, please cite our paper published in *Analytical Chemistry*:
 ```
-@misc{hájek2023denovoidentificationsmallmolecules,
-      title={De-novo Identification of Small Molecules from Their GC-EI-MS Spectra},
-      author={Adam Hájek and Michal Starý and Filip Jozefov and Helge Hecht and Elliott Price and Aleš Křenek},
-      year={2023},
-      eprint={2304.01634},
-      archivePrefix={arXiv},
-      primaryClass={physics.data-an},
-      url={https://arxiv.org/abs/2304.01634},
+@article{hájek2026spectus,
+      title={SpecTUS: Spectral Translator for Unknown Structures Annotation from EI-MS Spectra},
+      author={Hájek, Adam and Starý, Michal and Price, Elliott and Jozefov, Filip and Hecht, Helge and Křenek, Aleš},
+      journal={Analytical Chemistry},
+      year={2026},
+      publisher={American Chemical Society},
+      doi={10.1021/acs.analchem.6c02423},
+      url={https://pubs.acs.org/doi/10.1021/acs.analchem.6c02423},
 }
 ```
 
