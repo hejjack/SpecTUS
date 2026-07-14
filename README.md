@@ -1,9 +1,17 @@
 # SpecTUS: Spectral Translator for Unknown Structures annotation from EI-MS spectra
 
+[![DOI](https://img.shields.io/badge/DOI-10.1021%2Facs.analchem.6c02423-blue)](https://doi.org/10.1021/acs.analchem.6c02423)
+[![arXiv](https://img.shields.io/badge/arXiv-2304.01634-b31b1b)](https://arxiv.org/abs/2304.01634)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-MS--ML-yellow)](https://huggingface.co/MS-ML)
+
 **SpecTUS** is a transformer-based tool for reconstructing Gas Chromatography-Electron Ionization (GC-EI) mass spectra. The model reconstructs spectra in a de novo manner — directly translating the spectra into 2D molecular structures represented as SMILES strings. The model is pretrained on a large dataset of synthetic spectra and fine-tuned on a smaller dataset of experimental NIST20 spectra. The NIST20 is a proprietary dataset; therefore, we cannot share the final model, but the code for training the model is carefully documented and available for public use. If you own a license for the NIST20 dataset, you can train the model yourself.
 
 We make freely available the 17.2M synthetic spectra used for pretraining the model and the checkpoint of the pretrained model that
 can be further finetuned on your own dataset [here](https://huggingface.co/MS-ML).
+
+## 📄 Paper
+SpecTUS is published in **_Analytical Chemistry_** (ACS, 2026):
+[**SpecTUS: Spectral Translator for Unknown Structures Annotation from EI-MS Spectra**](https://pubs.acs.org/doi/10.1021/acs.analchem.6c02423) — DOI [10.1021/acs.analchem.6c02423](https://doi.org/10.1021/acs.analchem.6c02423).
 
 ## 🎮 Demo 
 You can run a demo inference of the final model hosted on our server via Jupyter Notebook in [this](https://github.com/ljocha/spectus-demo) repository.
@@ -22,7 +30,7 @@ SpecTUS/
 ## 🛠 Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/SpecTUS.git
+   git clone https://github.com/hejjack/SpecTUS.git
    cd SpecTUS
    ```
 2. Set up the Python environment:

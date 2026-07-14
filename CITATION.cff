@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: "If you use SpecTUS, please cite the paper below."
+title: "SpecTUS: Spectral Translator for Unknown Structures Annotation from EI-MS Spectra"
+type: software
+authors:
+  - family-names: "Hájek"
+    given-names: "Adam"
+  - family-names: "Starý"
+    given-names: "Michal"
+  - family-names: "Price"
+    given-names: "Elliott"
+  - family-names: "Jozefov"
+    given-names: "Filip"
+  - family-names: "Hecht"
+    given-names: "Helge"
+  - family-names: "Křenek"
+    given-names: "Aleš"
+repository-code: "https://github.com/hejjack/SpecTUS"
+url: "https://huggingface.co/MS-ML"
+preferred-citation:
+  type: article
+  title: "SpecTUS: Spectral Translator for Unknown Structures Annotation from EI-MS Spectra"
+  authors:
+    - family-names: "Hájek"
+      given-names: "Adam"
+    - family-names: "Starý"
+      given-names: "Michal"
+    - family-names: "Price"
+      given-names: "Elliott"
+    - family-names: "Jozefov"
+      given-names: "Filip"
+    - family-names: "Hecht"
+      given-names: "Helge"
+    - family-names: "Křenek"
+      given-names: "Aleš"
+  journal: "Analytical Chemistry"
+  year: 2026
+  doi: "10.1021/acs.analchem.6c02423"
+  publisher:
+    name: "American Chemical Society"
+  url: "https://pubs.acs.org/doi/10.1021/acs.analchem.6c02423"
