@@ -9,6 +9,12 @@
 We make freely available the 17.2M synthetic spectra used for pretraining the model and the checkpoint of the pretrained model that
 can be further finetuned on your own dataset [here](https://huggingface.co/MS-ML).
 
+<p align="center">
+  <img src="docs/spectus_overview.jpg" alt="SpecTUS method overview" width="760">
+</p>
+
+<p align="center"><em>Spectra generators (NEIMS/RASSP), trained on NIST20, produce synthetic spectra from ZINC molecules for pretraining. SpecTUS is then finetuned on NIST20 and, at inference, translates an analysed EI-MS spectrum directly into ranked SMILES candidates.</em></p>
+
 ## 📄 Paper
 SpecTUS is published in **_Analytical Chemistry_** (ACS, 2026):
 [**SpecTUS: Spectral Translator for Unknown Structures Annotation from EI-MS Spectra**](https://pubs.acs.org/doi/10.1021/acs.analchem.6c02423) — DOI [10.1021/acs.analchem.6c02423](https://doi.org/10.1021/acs.analchem.6c02423).
