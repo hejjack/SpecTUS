@@ -16,6 +16,12 @@ SpecTUS is published in **_Analytical Chemistry_** (ACS, 2026):
 ## 📝 Abstract
 Compound identification and structure annotation from mass spectra are essential in drug detection, forensics, and small molecule discovery. Current approaches to compound identification from electron ionization mass spectra (EI-MS) are dependent on different forms of searching databases that are orders of magnitude smaller than the space of potential molecular structures they attempt to cover. We introduce SpecTUS: Spectral Translator for Unknown Structures, a deep learning model for de novo structural annotation, translating gas chromatography EI-MS spectra directly into molecular structures without requiring reference databases. This enables the identification of novel compounds absent from spectral libraries. In a rigorous evaluation, SpecTUS significantly outperformed standard database search techniques. On a held-out test set of 28,267 spectra from NIST 20, the model’s single suggestion perfectly reconstructed 43% of the subset’s compounds. On 76% of this test set, the single suggestion is strictly better, in terms of Tanimoto similarity of Morgan fingerprint, than the result of hybrid database search. With ten suggestions, SpecTUS achieved 65% perfect reconstructions, surpassing hybrid search on 84% of the test set.
 
+<p align="center">
+  <img src="docs/spectus_overview.jpg" alt="SpecTUS method overview" width="760">
+</p>
+
+<p align="center"><em>Spectra generators (NEIMS/RASSP), trained on NIST20, produce synthetic spectra from ZINC molecules for pretraining. SpecTUS is then finetuned on NIST20 and, at inference, translates an analysed EI-MS spectrum directly into ranked SMILES candidates.</em></p>
+
 ## 🎮 Demo 
 You can run a demo inference of the final model hosted on our server via Jupyter Notebook in [this](https://github.com/ljocha/spectus-demo) repository.
 
